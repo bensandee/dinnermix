@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    target-branch: "develop"
+    commit-message:
+      prefix: "fix"
+      prefix-development: "chore"
+    open-pull-requests-limit: 20
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    target-branch: "main"
+    commit-message:
+      prefix: "ci"
