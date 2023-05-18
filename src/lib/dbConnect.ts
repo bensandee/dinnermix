@@ -31,6 +31,7 @@ export const dbConnect = async () => {
   let conn: mongoose.Mongoose;
   try {
     conn = await cached.promise;
+    console.log(`connecting to ${MONGODB_URI}`);
     cached.conn = conn;
   } catch (e) {
     cached.promise = undefined;
