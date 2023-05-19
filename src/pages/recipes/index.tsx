@@ -1,20 +1,19 @@
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { InferGetServerSidePropsType } from "next";
 import { dbConnect } from "@/lib/dbConnect";
-import { RecipeType, recipeSchema, recipeModel } from "@/models/Recipe";
-import { GetServerSideProps } from "next";
+import { schema, recipeModel } from "@/models/Recipe";
 
-type RecipeListProps = {
-  recipes: RecipeType[];
-};
-
-export default function RecipeIndex({ recipes }: RecipeListProps) {
+export default function RecipeIndex({
+  recipes,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return <div>{JSON.stringify(recipes)}</div>;
 }
 
-export const getServerSideProps: GetServerSideProps<
-  RecipeListProps
-> = async () => {
-  await dbConnect();
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps() {
+    await dbConnect();
 
-  const recipes = await recipeModel.find({});
-  return { props: { recipes: recipeSchema.array().parse(recipes) } };
-};
+    const recipes = await recipeModel.find({});
+    return { props: { recipes: schema.array().parse(recipes) } };
+  },
+});

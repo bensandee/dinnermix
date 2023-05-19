@@ -1,19 +1,22 @@
-import mongoose, { Model, Schema } from "mongoose";
+import { Schema } from "mongoose";
 import z from "zod";
+import { buildModel } from "./Helper";
 
-export const recipeSchema = z.object({
-  id: z.coerce.string(),
-  name: z.string(),
+/** mongoose schema */
+const recipeSchema = new Schema({
+  name: { type: String, required: true },
+  url: String,
+  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
 });
-export type RecipeType = z.infer<typeof recipeSchema>;
 
-const RecipeMongooseSchema = new Schema<RecipeType>({ name: String });
+/** the normal representation of the recipe outside of mongoose */
+export const schema = z.object({
+  id: z.string(),
+  name: z.string(),
+  user: z.coerce.string(),
+  url: z.string().url().optional(),
+});
+export type RecipeType = z.infer<typeof schema>;
 
-const model = (): Model<RecipeType> => {
-  return (
-    mongoose.models.Recipe ??
-    mongoose.model<RecipeType>("Recipe", RecipeMongooseSchema)
-  );
-};
-
-export const recipeModel = model();
+/** used to execute queriss against mongoose */
+export const recipeModel = buildModel<RecipeType>("Recipe", recipeSchema);
