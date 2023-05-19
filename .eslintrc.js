@@ -20,8 +20,10 @@ module.exports = {
   reportUnusedDisableDirectives: true,
   rules: {
     eqeqeq: ["warn", "smart"],
-    "func-style": ["warn"],
-    "require-await": ["error"],
+    "require-await": ["warn"],
+    // Note: you must disable the base rule as it can report incorrect errors
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/strict-boolean-expressions": "warn",
   },
