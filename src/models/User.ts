@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
-import z from "zod";
 import { buildModel } from "./Helper";
+import z from "zod";
 
 const recipeHistorySchema = new Schema({
   recipe: { type: Schema.Types.ObjectId, ref: "Recipe", required: true },
@@ -8,18 +8,19 @@ const recipeHistorySchema = new Schema({
 });
 
 /** mongoose schema */
-const userSchema = new Schema({
+const mongooseSchema = new Schema({
   email: { type: String, required: true, unique: true },
   recipeHistory: [recipeHistorySchema],
 });
 
-export const schema = z.object({
+export const UserSchema = z.object({
+  id: z.string(),
   email: z.string(),
   recipeHistory: z
-    .array(z.object({ recipe: z.coerce.string(), date: z.date() }))
+    .array(z.object({ recipeSlug: z.coerce.string(), date: z.date() }))
     .optional(),
 });
-export type UserType = z.infer<typeof schema>;
+type User = z.infer<typeof UserSchema>;
 
 /** used to execute queriss against mongoose */
-export const userModel = buildModel<UserType>("User", userSchema);
+export const UserModel = buildModel<User>("User", mongooseSchema);

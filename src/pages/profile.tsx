@@ -1,7 +1,7 @@
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { InferGetServerSidePropsType } from "next";
 import { dbConnect } from "@/lib/dbConnect";
-import { userModel, schema as userSchema } from "@/models/User";
+import { UserModel, UserSchema } from "@/models/User";
 
 /** demonstrate display of SSR-side profile data */
 export default function Profile({
@@ -23,8 +23,8 @@ export const getServerSideProps = withPageAuthRequired({
 
     // get related profile data from mongodb
     await dbConnect();
-    const extraUserData = await userModel.findOne({ email }).lean().exec();
+    const extraUserData = await UserModel.findOne({ email }).lean().exec();
 
-    return { props: { extraUserData: userSchema.parse(extraUserData) } };
+    return { props: { extraUserData: UserSchema.parse(extraUserData) } };
   },
 });

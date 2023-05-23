@@ -1,7 +1,7 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { InferGetServerSidePropsType } from "next";
 import { dbConnect } from "@/lib/dbConnect";
-import { schema, recipeModel } from "@/models/Recipe";
+import { RecipeSchema, RecipeModel } from "@/models/Recipe";
 
 export default function RecipeIndex({
   recipes,
@@ -13,7 +13,7 @@ export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps() {
     await dbConnect();
 
-    const recipes = await recipeModel.find({});
-    return { props: { recipes: schema.array().parse(recipes) } };
+    const recipes = await RecipeModel.find({});
+    return { props: { recipes: RecipeSchema.array().parse(recipes) } };
   },
 });
