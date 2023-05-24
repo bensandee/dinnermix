@@ -4,14 +4,14 @@ import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { dbConnect } from "@/lib/dbConnect";
 import { RecipeModel } from "@/models/Recipe";
 import { StatusCodes } from "http-status-codes";
-import { getSessionUid } from "@/lib/auth";
+import { getSessionUser } from "@/lib/auth";
 
 const getSchema = RecipeSchema.omit({ id: true });
 const putSchema = getSchema.omit({ user: true });
 
 async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
-  const uid = await getSessionUid(req, res);
-  if (uid === undefined) {
+  const user = await getSessionUser(req, res);
+  if (!user) {
     res.status(StatusCodes.UNAUTHORIZED);
     return;
   }
@@ -24,7 +24,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
   await dbConnect();
   switch (req.method) {
     case "GET": {
-      const recipe = RecipeModel.find({ slug, id: uid });
+      const recipe = RecipeModel.find({ slug, id: user.id });
       if (recipe === null) {
         res.status(StatusCodes.NOT_FOUND);
         return;
@@ -38,7 +38,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
       } else {
         // FIXME look for slug duplicates
         const updateResult = await RecipeModel.updateOne(
-          { slug, id: uid },
+          { slug, id: user.id },
           parsed.data
         );
         if (updateResult.modifiedCount === 0) {
@@ -50,7 +50,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
       break;
     }
     case "DELETE": {
-      const deleteResult = await RecipeModel.deleteOne({ slug, id: uid });
+      // fixme delete recipes from user record
+      const deleteResult = await RecipeModel.deleteOne({ slug, id: user.id });
       if (deleteResult.deletedCount === 0) {
         res.status(StatusCodes.NOT_FOUND);
       } else {

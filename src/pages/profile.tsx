@@ -1,30 +1,22 @@
-import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { InferGetServerSidePropsType } from "next";
-import { dbConnect } from "@/lib/dbConnect";
-import { UserModel, UserSchema } from "@/models/User";
+import { requireSessionUser } from "@/lib/auth";
 
 /** demonstrate display of SSR-side profile data */
 export default function Profile({
   user,
-  extraUserData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { name, ...rest } = user;
   return (
     <div>
-      Hello {user.name} and {JSON.stringify(extraUserData)}
+      Hello {name} and {JSON.stringify(rest)}
     </div>
   );
 }
 
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps({ req, res }) {
-    // extra session from auth0
-    const session = await getSession(req, res);
-    const email = session?.user?.email;
-
-    // get related profile data from mongodb
-    await dbConnect();
-    const extraUserData = await UserModel.findOne({ email }).lean().exec();
-
-    return { props: { extraUserData: UserSchema.parse(extraUserData) } };
+    const user = await requireSessionUser(req, res);
+    return { props: { user } };
   },
 });

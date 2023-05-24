@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { dbConnect } from "@/lib/dbConnect";
-import { getSessionUid } from "@/lib/auth";
+import { getSessionUser } from "@/lib/auth";
 import { StatusCodes } from "http-status-codes";
 import { z } from "zod";
 
@@ -20,8 +20,8 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<GetSchemaType>
 ) {
-  const uid = await getSessionUid(req, res);
-  if (uid === undefined) {
+  const user = await getSessionUser(req, res);
+  if (!user) {
     res.status(StatusCodes.UNAUTHORIZED);
     return;
   }

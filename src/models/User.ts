@@ -9,12 +9,14 @@ const recipeHistorySchema = new Schema({
 
 /** mongoose schema */
 const mongooseSchema = new Schema({
+  name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   recipeHistory: [recipeHistorySchema],
 });
 
 export const UserSchema = z.object({
   id: z.string(),
+  name: z.string(),
   email: z.string(),
   recipeHistory: z
     .array(z.object({ recipeSlug: z.coerce.string(), date: z.date() }))
