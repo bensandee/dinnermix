@@ -6,11 +6,12 @@ module.exports = {
     jest: true,
   },
   extends: [
-    "next/core-web-vitals",
+    //"next/core-web-vitals",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
     "plugin:react/jsx-runtime",
+    "prettier",
   ],
   parserOptions: {
     ecmaVersion: 6,

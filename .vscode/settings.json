@@ -10,5 +10,6 @@
   },
   "tailwindCSS.includeLanguages": {
     "plaintext": "html"
-  }
+  },
+  "prettier.prettierPath": "./node_modules/prettier"
 }

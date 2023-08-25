@@ -7,6 +7,8 @@ import { getSessionUser } from "@/lib/auth";
 import { StatusCodes } from "http-status-codes";
 import { z } from "zod";
 
+export default withApiAuthRequired(handler);
+
 // we don't expose id, only slugs
 const GetSchema = RecipeSchema.omit({ id: true }).array();
 type GetSchemaType = z.infer<typeof GetSchema>;
@@ -50,5 +52,3 @@ async function handler(
     }
   }
 }
-
-export default withApiAuthRequired(handler);

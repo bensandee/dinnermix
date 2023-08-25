@@ -9,6 +9,8 @@ import { getSessionUser } from "@/lib/auth";
 const getSchema = RecipeSchema.omit({ id: true });
 const putSchema = getSchema.omit({ user: true });
 
+export default withApiAuthRequired(handler);
+
 async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
   const user = await getSessionUser(req, res);
   if (!user) {
@@ -64,5 +66,3 @@ async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
     }
   }
 }
-
-export default withApiAuthRequired(handler);
