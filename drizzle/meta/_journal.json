@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1693349141672,
+      "tag": "0000_sharp_champions",
+      "breakpoints": true
+    }
+  ]
+}

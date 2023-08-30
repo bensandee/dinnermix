@@ -1,5 +1,8 @@
 // MIT License
 
+import { NextApiRequest } from "next";
+import { ParsedUrlQuery } from "querystring";
+
 // Copyright (c) 2023 Max Rogério
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,4 +35,30 @@ export const slugify = (...args: string[]): string => {
     .trim()
     .replace(/[^a-z0-9 ]/g, "") // remove all chars not letters, numbers and spaces (to be replaced)
     .replace(/\s+/g, "-"); // separator
+};
+
+/** extracts slug from request with named argument "slug" */
+export const slugFromRequest = (req: NextApiRequest): string | undefined => {
+  const { slug } = req.query;
+  if (slug == null) {
+    return undefined;
+  }
+  if (Array.isArray(slug)) {
+    return slug.join(" ");
+  } else {
+    return slug;
+  }
+};
+
+/** extracts slug from query with named argument "slug" */
+export const slugFromQuery = (query: ParsedUrlQuery): string | undefined => {
+  const { slug } = query;
+  if (slug == null) {
+    return undefined;
+  }
+  if (Array.isArray(slug)) {
+    return slug.join(" ");
+  } else {
+    return slug;
+  }
 };

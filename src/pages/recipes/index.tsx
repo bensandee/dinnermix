@@ -1,8 +1,9 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { InferGetServerSidePropsType } from "next";
-import { dbConnect } from "@/lib/dbConnect";
-import { RecipeSchema, RecipeModel } from "@/models/Recipe";
 import { requireSessionUser } from "@/lib/auth";
+import { recipeSchema, selectRecipeSchema } from "@/lib/schema";
+import { eq } from "drizzle-orm";
+import { drizzleConnection } from "@/lib/drizzle";
 
 export default function RecipeIndex({
   recipes,
@@ -18,8 +19,10 @@ export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps({ req, res }) {
     const user = await requireSessionUser(req, res);
 
-    await dbConnect();
-    const recipes = await RecipeModel.find({ user: user.id });
-    return { props: { recipes: RecipeSchema.array().parse(recipes) } };
+    const recipes = await drizzleConnection
+      .select()
+      .from(recipeSchema)
+      .where(eq(recipeSchema.userId, user.id));
+    return { props: { recipes: selectRecipeSchema.array().parse(recipes) } };
   },
 });

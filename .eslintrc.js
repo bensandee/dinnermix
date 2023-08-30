@@ -10,12 +10,15 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
+    "plugin:@next/next/recommended",
     "plugin:react/jsx-runtime",
     "prettier",
   ],
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 6,
     project: "./tsconfig.json",
+    sourceType: "module",
   },
   plugins: ["@typescript-eslint", "promise"],
   reportUnusedDisableDirectives: true,
@@ -27,5 +30,10 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/strict-boolean-expressions": "warn",
+  },
+  settings: {
+    react: {
+      version: "detect",
+    },
   },
 };

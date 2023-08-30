@@ -1,8 +1,10 @@
 import { requireSessionUser } from "@/lib/auth";
-import { dbConnect } from "@/lib/dbConnect";
-import { RecipeModel, RecipeSchema } from "@/models/Recipe";
+import { recipeSchema } from "@/lib/schema";
+import { slugFromQuery } from "@/lib/slugify";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { and, eq } from "drizzle-orm";
 import { InferGetServerSidePropsType } from "next";
+import { drizzleConnection } from "@/lib/drizzle";
 
 export default function Recipe({
   recipe,
@@ -21,16 +23,27 @@ export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps({ req, res, query }) {
     const user = await requireSessionUser(req, res);
 
-    const { slug } = query;
+    const slug = slugFromQuery(query);
+    if (slug === undefined) {
+      res.statusCode = 404;
+      return { props: { recipe: null } };
+    }
 
-    await dbConnect();
-    const recipe = await RecipeModel.findOne({ slug, user: user.id });
+    const where = and(
+      eq(recipeSchema.slug, slug),
+      eq(recipeSchema.id, user.id),
+    );
+
+    const recipe = await drizzleConnection
+      .select()
+      .from(recipeSchema)
+      .where(where);
     let returnRecipe;
-    if (!recipe) {
+    if (recipe.length === 0) {
       res.statusCode = 404;
       returnRecipe = null;
     } else {
-      returnRecipe = RecipeSchema.parse(recipe);
+      returnRecipe = recipe[0];
     }
 
     return { props: { recipe: returnRecipe } };

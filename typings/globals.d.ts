@@ -1,11 +1,5 @@
-import { Mongoose } from "mongoose";
-
-type MongooseConnection = {
-  promise?: Promise<Mongoose>;
-  conn?: Mongoose;
-};
+import { MySql2Database } from "drizzle-orm/mysql2";
 
 declare global {
-  // eslint-disable-next-line no-unused-vars
-  var mongoose: MongooseConnection;
+  var drizzle: MySql2Database | undefined;
 }

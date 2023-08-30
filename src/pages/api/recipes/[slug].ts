@@ -1,32 +1,33 @@
-import { RecipeSchema } from "@/models/Recipe";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
-import { dbConnect } from "@/lib/dbConnect";
-import { RecipeModel } from "@/models/Recipe";
 import { StatusCodes } from "http-status-codes";
 import { getSessionUser } from "@/lib/auth";
+import { recipeSchema, selectRecipeSchema } from "@/lib/schema";
+import { eq, and } from "drizzle-orm";
+import { slugFromRequest } from "@/lib/slugify";
+import { drizzleConnection } from "@/lib/drizzle";
 
-const getSchema = RecipeSchema.omit({ id: true });
-const putSchema = getSchema.omit({ user: true });
+const getSchema = selectRecipeSchema.omit({ id: true });
+const putSchema = getSchema.omit({ userId: true });
 
 export default withApiAuthRequired(handler);
 
 async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
   const user = await getSessionUser(req, res);
-  if (!user) {
+  if (user === undefined) {
     res.status(StatusCodes.UNAUTHORIZED);
     return;
   }
 
-  const { slug } = req.query;
-  if (slug == null) {
+  const slug = slugFromRequest(req);
+  if (slug === undefined) {
     res.status(StatusCodes.BAD_REQUEST);
     return;
   }
-  await dbConnect();
+  const where = and(eq(recipeSchema.slug, slug), eq(recipeSchema.id, user.id));
   switch (req.method) {
     case "GET": {
-      const recipe = RecipeModel.find({ slug, id: user.id });
+      const recipe = drizzleConnection.select().from(recipeSchema).where(where);
       if (recipe === null) {
         res.status(StatusCodes.NOT_FOUND);
         return;
@@ -39,11 +40,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
         res.status(StatusCodes.BAD_REQUEST).end(parsed.error);
       } else {
         // FIXME look for slug duplicates
-        const updateResult = await RecipeModel.updateOne(
-          { slug, id: user.id },
-          parsed.data
-        );
-        if (updateResult.modifiedCount === 0) {
+        const updateResult = await drizzleConnection
+          .update(recipeSchema)
+          .set(parsed.data)
+          .where(where);
+        if (updateResult[0].affectedRows === 0) {
           res.status(StatusCodes.NOT_FOUND);
         } else {
           res.status(StatusCodes.NO_CONTENT);
@@ -52,9 +53,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
       break;
     }
     case "DELETE": {
-      // fixme delete recipes from user record
-      const deleteResult = await RecipeModel.deleteOne({ slug, id: user.id });
-      if (deleteResult.deletedCount === 0) {
+      // FIXME delete recipes from user record?
+      const deleteResult = await drizzleConnection
+        .delete(recipeSchema)
+        .where(where);
+      if (deleteResult[0].affectedRows === 0) {
         res.status(StatusCodes.NOT_FOUND);
       } else {
         res.status(StatusCodes.NO_CONTENT);
