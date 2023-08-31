@@ -4,8 +4,10 @@ import { requireSessionUser } from "@/lib/auth";
 import { selectUserSchema } from "@/lib/db/schema";
 import { z } from "zod";
 
+// convert lastLogin in user profile to a string
 const adaptedLastLogin = z.object({ lastLogin: z.coerce.string() });
 const adaptedUser = selectUserSchema.merge(adaptedLastLogin);
+
 /** demonstrate display of SSR-side profile data */
 export default function Profile({
   profile,
@@ -21,7 +23,6 @@ export default function Profile({
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps({ req, res }) {
     const profile = await requireSessionUser(req, res);
-    const parsed = adaptedUser.parse(profile);
-    return { props: { profile: parsed } };
+    return { props: { profile: adaptedUser.parse(profile) } };
   },
 });
