@@ -1,5 +1,5 @@
-import { MySql2Database } from "drizzle-orm/mysql2";
+import { PlanetScaleDatabase } from "drizzle-orm/planetscale-serverless";
 
 declare global {
-  var drizzle: MySql2Database | undefined;
+  var drizzle: PlanetScaleDatabase | undefined;
 }

@@ -23,6 +23,7 @@ CREATE TABLE `dinnermix`.`user` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`name` varchar(80) NOT NULL,
 	`email` varchar(120) NOT NULL,
+	`lastLogin` datetime,
 	CONSTRAINT `user_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint

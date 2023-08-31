@@ -7,8 +7,8 @@ import {
   selectRecipeSchema,
   recipeSchema,
   insertRecipeSchema,
-} from "@/lib/schema";
-import { drizzleConnection } from "@/lib/drizzle";
+} from "@/lib/db/schema";
+import { database } from "@/lib/db";
 
 export default withApiAuthRequired(handler);
 
@@ -34,9 +34,7 @@ async function handler(
 
   switch (req.method) {
     case "GET": {
-      const selectedRecipes = await drizzleConnection
-        .select()
-        .from(recipeSchema);
+      const selectedRecipes = await database.select().from(recipeSchema);
       const parsed = GetSchema.parse(selectedRecipes);
       res.send(parsed);
       break;
@@ -47,10 +45,7 @@ async function handler(
       }
       const parsed = PostSchema.safeParse(req.body);
       if (parsed.success) {
-        await drizzleConnection
-          .insert(recipeSchema)
-          .values(parsed.data)
-          .execute();
+        await database.insert(recipeSchema).values(parsed.data).execute();
         return res.status(StatusCodes.CREATED);
       } else {
         res.status(StatusCodes.BAD_REQUEST).end(parsed.error);

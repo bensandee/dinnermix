@@ -1,9 +1,9 @@
 import { getSession } from "@auth0/nextjs-auth0";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { IncomingMessage, ServerResponse } from "http";
-import { userSchema } from "./schema";
+import { userSchema } from "./db/schema";
 import { eq } from "drizzle-orm";
-import { drizzleConnection } from "./drizzle";
+import { database } from "./db/drizzle";
 
 /** return the email address of the session */
 export const getSessionEmail = async (
@@ -27,7 +27,7 @@ export const getSessionUser = async (
   if (email == null) {
     return undefined;
   }
-  const dbUser = await drizzleConnection
+  const dbUser = await database
     .select()
     .from(userSchema)
     .where(eq(userSchema.email, email));

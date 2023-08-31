@@ -2,10 +2,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { StatusCodes } from "http-status-codes";
 import { getSessionUser } from "@/lib/auth";
-import { recipeSchema, selectRecipeSchema } from "@/lib/schema";
+import { recipeSchema, selectRecipeSchema } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
 import { slugFromRequest } from "@/lib/slugify";
-import { drizzleConnection } from "@/lib/drizzle";
+import { database } from "@/lib/db";
 
 const getSchema = selectRecipeSchema.omit({ id: true });
 const putSchema = getSchema.omit({ userId: true });
@@ -27,7 +27,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
   const where = and(eq(recipeSchema.slug, slug), eq(recipeSchema.id, user.id));
   switch (req.method) {
     case "GET": {
-      const recipe = drizzleConnection.select().from(recipeSchema).where(where);
+      const recipe = database.select().from(recipeSchema).where(where);
       if (recipe === null) {
         res.status(StatusCodes.NOT_FOUND);
         return;
@@ -40,11 +40,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
         res.status(StatusCodes.BAD_REQUEST).end(parsed.error);
       } else {
         // FIXME look for slug duplicates
-        const updateResult = await drizzleConnection
+        const updateResult = await database
           .update(recipeSchema)
           .set(parsed.data)
           .where(where);
-        if (updateResult[0].affectedRows === 0) {
+        if (updateResult.rowsAffected === 0) {
           res.status(StatusCodes.NOT_FOUND);
         } else {
           res.status(StatusCodes.NO_CONTENT);
@@ -54,10 +54,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
     }
     case "DELETE": {
       // FIXME delete recipes from user record?
-      const deleteResult = await drizzleConnection
-        .delete(recipeSchema)
-        .where(where);
-      if (deleteResult[0].affectedRows === 0) {
+      const deleteResult = await database.delete(recipeSchema).where(where);
+      if (deleteResult.rowsAffected === 0) {
         res.status(StatusCodes.NOT_FOUND);
       } else {
         res.status(StatusCodes.NO_CONTENT);

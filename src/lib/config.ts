@@ -1,7 +1,9 @@
+import { Config } from "@planetscale/database";
+
 export type Configuration = {
-  connectionString: string;
+  planetScaleConfiguration: Config;
 };
 
-export const config: Configuration = {
-  connectionString: process.env.DATABASE_URL as string,
+export const configuration: Configuration = {
+  planetScaleConfiguration: { url: process.env["DATABASE_URL"] as string },
 };

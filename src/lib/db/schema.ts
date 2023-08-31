@@ -14,6 +14,7 @@ export const userSchema = schema.table("user", {
   id: int("id").primaryKey().autoincrement(),
   name: varchar("name", { length: 80 }).notNull(),
   email: varchar("email", { length: 120 }).notNull(),
+  lastLogin: datetime("lastLogin"),
 });
 
 export const recipeSchema = schema.table("recipe", {

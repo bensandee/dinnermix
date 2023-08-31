@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "3585140f-0620-46cd-906c-69c18c5ef62c",
+  "id": "d2f024dd-400b-4649-acd3-e891c7845e0f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "recipe_owner": {
@@ -181,6 +181,13 @@
           "type": "varchar(120)",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "lastLogin": {
+          "name": "lastLogin",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         }
       },

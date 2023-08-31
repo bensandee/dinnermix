@@ -1,14 +1,12 @@
 import type { Config } from "drizzle-kit";
-import { loadEnvConfig } from "@next/env";
-import { cwd } from "process";
-
-loadEnvConfig(cwd());
+import "dotenv/config";
 
 export default {
-  schema: "./src/lib/schema.ts",
   driver: "mysql2",
-  out: "./drizzle",
+  schema: "./src/lib/db/schema.ts",
+  out: "./src/lib/db/migrations",
   verbose: true,
+  breakpoints: true,
   dbCredentials: {
     connectionString: process.env.DATABASE_URL as string,
   },
