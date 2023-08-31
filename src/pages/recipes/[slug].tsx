@@ -4,7 +4,7 @@ import { slugFromQuery } from "@/lib/slugify";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { and, eq } from "drizzle-orm";
 import { InferGetServerSidePropsType } from "next";
-import { database } from "@/lib/db/drizzle";
+import { database } from "@/lib/db";
 
 export default function Recipe({
   recipe,

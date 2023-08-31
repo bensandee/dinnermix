@@ -1,9 +1,11 @@
-import { Config } from "@planetscale/database";
+type PostgresConfiguration = {
+  url: string;
+};
 
 export type Configuration = {
-  planetScaleConfiguration: Config;
+  postgresConfiguration: PostgresConfiguration;
 };
 
 export const configuration: Configuration = {
-  planetScaleConfiguration: { url: process.env["DATABASE_URL"] as string },
+  postgresConfiguration: { url: process.env["DATABASE_URL"] as string },
 };

@@ -1,41 +1,38 @@
 {
   "version": "5",
-  "dialect": "mysql",
-  "id": "d2f024dd-400b-4649-acd3-e891c7845e0f",
+  "dialect": "pg",
+  "id": "b63067c5-fa07-4093-a18e-ca32eb1d331e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "recipe_owner": {
-      "name": "recipe_owner",
-      "schema": "dinnermix",
+    "dm_recipe_owner": {
+      "name": "dm_recipe_owner",
+      "schema": "",
       "columns": {
         "recipeId": {
           "name": "recipeId",
-          "type": "int",
+          "type": "serial",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "userId": {
           "name": "userId",
-          "type": "int",
+          "type": "serial",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "datePrepared": {
           "name": "datePrepared",
-          "type": "datetime",
+          "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "recipe_owner_recipeId_recipe_id_fk": {
-          "name": "recipe_owner_recipeId_recipe_id_fk",
-          "tableFrom": "recipe_owner",
-          "tableTo": "recipe",
+        "dm_recipe_owner_recipeId_dm_recipe_id_fk": {
+          "name": "dm_recipe_owner_recipeId_dm_recipe_id_fk",
+          "tableFrom": "dm_recipe_owner",
+          "tableTo": "dm_recipe",
           "columnsFrom": [
             "recipeId"
           ],
@@ -45,10 +42,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "recipe_owner_userId_user_id_fk": {
-          "name": "recipe_owner_userId_user_id_fk",
-          "tableFrom": "recipe_owner",
-          "tableTo": "user",
+        "dm_recipe_owner_userId_dm_user_id_fk": {
+          "name": "dm_recipe_owner_userId_dm_user_id_fk",
+          "tableFrom": "dm_recipe_owner",
+          "tableTo": "dm_user",
           "columnsFrom": [
             "userId"
           ],
@@ -60,8 +57,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "recipe_owner_recipeId_userId": {
-          "name": "recipe_owner_recipeId_userId",
+        "dm_recipe_owner_recipeId_userId": {
+          "name": "dm_recipe_owner_recipeId_userId",
           "columns": [
             "recipeId",
             "userId"
@@ -70,67 +67,60 @@
       },
       "uniqueConstraints": {}
     },
-    "recipe": {
-      "name": "recipe",
-      "schema": "dinnermix",
+    "dm_recipe": {
+      "name": "dm_recipe",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
         },
         "name": {
           "name": "name",
           "type": "varchar(120)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "slug": {
           "name": "slug",
           "type": "varchar(120)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "description": {
           "name": "description",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "url": {
           "name": "url",
           "type": "varchar(400)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "prepCount": {
           "name": "prepCount",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
           "default": 0
         },
         "userId": {
           "name": "userId",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "recipe_userId_user_id_fk": {
-          "name": "recipe_userId_user_id_fk",
-          "tableFrom": "recipe",
-          "tableTo": "user",
+        "dm_recipe_userId_dm_user_id_fk": {
+          "name": "dm_recipe_userId_dm_user_id_fk",
+          "tableFrom": "dm_recipe",
+          "tableTo": "dm_user",
           "columnsFrom": [
             "userId"
           ],
@@ -141,72 +131,54 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "recipe_id": {
-          "name": "recipe_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "recipe_slug_unique": {
-          "name": "recipe_slug_unique",
+        "dm_recipe_slug_unique": {
+          "name": "dm_recipe_slug_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "slug"
           ]
         }
       }
     },
-    "user": {
-      "name": "user",
-      "schema": "dinnermix",
+    "dm_user": {
+      "name": "dm_user",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
         },
         "name": {
           "name": "name",
           "type": "varchar(80)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "email": {
           "name": "email",
           "type": "varchar(120)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "lastLogin": {
           "name": "lastLogin",
-          "type": "datetime",
+          "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "user_id": {
-          "name": "user_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     }
   },
-  "schemas": {
-    "dinnermix": "dinnermix"
-  },
+  "enums": {},
+  "schemas": {},
   "_meta": {
     "schemas": {},
     "tables": {},

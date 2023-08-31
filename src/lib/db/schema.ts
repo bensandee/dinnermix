@@ -1,46 +1,45 @@
 import {
-  int,
+  integer,
   text,
-  mysqlSchema,
+  pgTable,
   varchar,
   primaryKey,
-  datetime,
-} from "drizzle-orm/mysql-core";
+  serial,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
-export const schema = mysqlSchema("dinnermix");
-
-export const userSchema = schema.table("user", {
-  id: int("id").primaryKey().autoincrement(),
+export const userSchema = pgTable("dm_user", {
+  id: serial("id").primaryKey(),
   name: varchar("name", { length: 80 }).notNull(),
   email: varchar("email", { length: 120 }).notNull(),
-  lastLogin: datetime("lastLogin"),
+  lastLogin: timestamp("lastLogin"),
 });
 
-export const recipeSchema = schema.table("recipe", {
-  id: int("id").primaryKey().autoincrement(),
+export const recipeSchema = pgTable("dm_recipe", {
+  id: serial("id").primaryKey(),
   name: varchar("name", { length: 120 }).notNull(),
   slug: varchar("slug", { length: 120 }).unique().notNull(),
   description: text("description"),
   url: varchar("url", { length: 400 }),
-  prepCount: int("prepCount").notNull().default(0),
-  userId: int("userId")
+  prepCount: integer("prepCount").notNull().default(0),
+  userId: integer("userId")
     .references(() => userSchema.id)
     .notNull(),
 });
 export const selectUserSchema = createSelectSchema(userSchema);
 export const insertUserSchema = createInsertSchema(userSchema);
 
-export const recipeHistory = schema.table(
-  "recipe_owner",
+export const recipeHistory = pgTable(
+  "dm_recipe_owner",
   {
-    recipeId: int("recipeId")
+    recipeId: serial("recipeId")
       .notNull()
       .references(() => recipeSchema.id),
-    userId: int("userId")
+    userId: serial("userId")
       .notNull()
       .references(() => userSchema.id),
-    datePrepared: datetime("datePrepared").notNull(),
+    datePrepared: timestamp("datePrepared").notNull(),
   },
   (table) => {
     return { pkf: primaryKey(table.recipeId, table.userId) };

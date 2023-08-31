@@ -1,10 +1,7 @@
-import { drizzle } from "drizzle-orm/planetscale-serverless";
-import { migrate } from "drizzle-orm/planetscale-serverless/migrator";
-import { connect } from "@planetscale/database";
-
-import { fetch } from "undici";
-
+import { drizzle } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
 import "dotenv/config";
+import postgres from "postgres";
 
 // inspired by Raphael Moreau @rphlmr for Postgres, extended for Planetscale
 const runMigrate = async () => {
@@ -12,10 +9,7 @@ const runMigrate = async () => {
     throw new Error("DATABASE_URL is not defined");
   }
 
-  const connection = connect({
-    url: process.env.DATABASE_URL,
-    fetch,
-  });
+  const connection = postgres(process.env.DATABASE_URL, { max: 1 });
 
   const db = drizzle(connection);
 

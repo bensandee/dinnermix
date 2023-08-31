@@ -1,5 +1,5 @@
-import { PlanetScaleDatabase } from "drizzle-orm/planetscale-serverless";
+import { PostgresJsDatabase } from "drizzle-orm/pg-serverless";
 
 declare global {
-  var drizzle: PlanetScaleDatabase | undefined;
+  var drizzle: PostgresJsDatabase | undefined;
 }

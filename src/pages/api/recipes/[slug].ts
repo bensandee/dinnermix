@@ -44,7 +44,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
           .update(recipeSchema)
           .set(parsed.data)
           .where(where);
-        if (updateResult.rowsAffected === 0) {
+        if (updateResult.length === 0) {
           res.status(StatusCodes.NOT_FOUND);
         } else {
           res.status(StatusCodes.NO_CONTENT);
@@ -55,7 +55,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
     case "DELETE": {
       // FIXME delete recipes from user record?
       const deleteResult = await database.delete(recipeSchema).where(where);
-      if (deleteResult.rowsAffected === 0) {
+      if (deleteResult.length === 0) {
         res.status(StatusCodes.NOT_FOUND);
       } else {
         res.status(StatusCodes.NO_CONTENT);

@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { IncomingMessage, ServerResponse } from "http";
 import { userSchema } from "./db/schema";
 import { eq } from "drizzle-orm";
-import { database } from "./db/drizzle";
+import { database } from "./db";
 
 /** return the email address of the session */
 export const getSessionEmail = async (
@@ -34,6 +34,12 @@ export const getSessionUser = async (
   if (dbUser.length === 0) {
     console.log(`missing user record for ${email}`);
     return undefined;
+  } else {
+    console.log("updating last login date");
+    await database
+      .update(userSchema)
+      .set({ lastLogin: new Date() })
+      .where(eq(userSchema.id, dbUser[0].id));
   }
   return dbUser[0];
 };
