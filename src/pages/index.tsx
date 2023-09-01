@@ -1,3 +1,4 @@
+import { Button } from "@/components";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -28,12 +29,7 @@ export default function Home() {
           </Link>
         </div>
         <div>
-          <button
-            className="bg-white text-black hover:bg-blue-500 rounded py-4 px-16"
-            onClick={goAddRecipe}
-          >
-            Add Recipe
-          </button>
+          <Button onClick={goAddRecipe}>Add Recipe</Button>
         </div>
       </>
     );

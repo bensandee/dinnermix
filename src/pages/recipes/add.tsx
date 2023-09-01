@@ -1,27 +1,39 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { insertRecipeSchema } from "@/lib/db/schema";
+import { useRouter } from "next/router";
+import { Button } from "@/components";
 
 /** the normal representation of the recipe outside of mongoose */
-export const RecipeSchema = z.object({
-  id: z.string(),
-  slug: z.string(),
-  name: z.string(),
-  description: z.string().default(""),
-  url: z.string().url().default(""),
-  prepCount: z.number().default(0),
-  user: z.coerce.string(),
+const formSchema = insertRecipeSchema.required().omit({
+  id: true,
+  prepCount: true,
+  userId: true,
 });
-const FormSchema = RecipeSchema.omit({ id: true, prepCount: true, user: true });
-type FormData = z.infer<typeof FormSchema>;
+type FormData = z.infer<typeof formSchema>;
 
 export default function AddRecipe() {
+  const router = useRouter();
+
   const {
     register,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-  const onSubmit = handleSubmit((data) => console.log(data));
+
+  const insertRecipe = async (data: FormData) => {
+    await fetch("/api/recipes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    await router.push("/recipes");
+  };
+
+  const onSubmit = handleSubmit(insertRecipe);
 
   return (
     <form onSubmit={onSubmit}>
@@ -36,19 +48,25 @@ export default function AddRecipe() {
         />
       </div>
       <div>
-        <label>Slug</label>
-        <input {...register("slug")} />
+        <label id="slugLabel" className="p-4">
+          Slug
+        </label>
+        <input
+          className="p-4 border-2"
+          aria-labelledby="slugLabel"
+          {...register("slug")}
+        />
       </div>
       <div>
         <label>Description</label>
-        <input {...register("description", { required: true })} />
+        <input {...register("description")} />
       </div>
 
       <div>
         <label>URL</label>
-        <input {...register("url", { required: true })} />
+        <input {...register("url")} />
       </div>
-      <button type="submit">Submit</button>
+      <Button type="submit">Submit</Button>
     </form>
   );
 }

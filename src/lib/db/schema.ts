@@ -16,6 +16,9 @@ export const userSchema = pgTable("dm_user", {
   lastLogin: timestamp("lastLogin"),
 });
 
+export const selectUserSchema = createSelectSchema(userSchema);
+export const insertUserSchema = createInsertSchema(userSchema);
+
 export const recipeSchema = pgTable("dm_recipe", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 120 }).notNull(),
@@ -23,12 +26,12 @@ export const recipeSchema = pgTable("dm_recipe", {
   description: text("description"),
   url: varchar("url", { length: 400 }),
   prepCount: integer("prepCount").notNull().default(0),
-  userId: integer("userId")
+  userId: serial("userId")
     .references(() => userSchema.id)
     .notNull(),
 });
-export const selectUserSchema = createSelectSchema(userSchema);
-export const insertUserSchema = createInsertSchema(userSchema);
+export const selectRecipeSchema = createSelectSchema(recipeSchema);
+export const insertRecipeSchema = createInsertSchema(recipeSchema);
 
 export const recipeHistory = pgTable(
   "dm_recipe_owner",
@@ -45,6 +48,3 @@ export const recipeHistory = pgTable(
     return { pkf: primaryKey(table.recipeId, table.userId) };
   },
 );
-
-export const selectRecipeSchema = createSelectSchema(recipeSchema);
-export const insertRecipeSchema = createInsertSchema(recipeSchema);

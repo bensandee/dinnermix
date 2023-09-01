@@ -16,11 +16,7 @@ export default withApiAuthRequired(handler);
 const GetSchema = selectRecipeSchema.omit({ id: true }).array();
 type GetSchemaType = z.infer<typeof GetSchema>;
 
-// omit id, make slug optional because we can generate it
 const PostSchema = insertRecipeSchema;
-// .merge(
-//   z.object({ slug: z.string().optional() }),
-// );
 
 async function handler(
   req: NextApiRequest,
@@ -40,13 +36,16 @@ async function handler(
       break;
     }
     case "POST": {
-      if (req.body.slug === undefined) {
-        req.body.slug = ""; // TODO Generate
-      }
-      const parsed = PostSchema.safeParse(req.body);
+      const slug = req.body.slug ?? "auto-slug";
+      const newRecipe = { ...req.body, userId: user.id, slug };
+      console.log(JSON.stringify(newRecipe));
+      const parsed = PostSchema.safeParse(newRecipe);
       if (parsed.success) {
-        await database.insert(recipeSchema).values(parsed.data).execute();
-        return res.status(StatusCodes.CREATED);
+        const response = await database
+          .insert(recipeSchema)
+          .values(parsed.data)
+          .execute();
+        res.status(StatusCodes.CREATED).end(JSON.stringify(response));
       } else {
         res.status(StatusCodes.BAD_REQUEST).end(parsed.error);
       }
