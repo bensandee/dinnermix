@@ -1,14 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
-import { getSessionUser } from "@/lib/auth";
+import { requireSessionUser } from "@/lib/auth";
 import { StatusCodes } from "http-status-codes";
-import { z } from "zod";
 import {
   selectRecipeSchema,
   recipeSchema,
   insertRecipeSchema,
 } from "@/lib/db/schema";
 import { database } from "@/lib/db";
+import { z } from "zod";
+import { slugify } from "@/lib/slugify";
+import { eq, sql } from "drizzle-orm";
 
 export default withApiAuthRequired(handler);
 
@@ -16,18 +18,15 @@ export default withApiAuthRequired(handler);
 const GetSchema = selectRecipeSchema.omit({ id: true }).array();
 type GetSchemaType = z.infer<typeof GetSchema>;
 
-const PostSchema = insertRecipeSchema;
+const PostSchema = insertRecipeSchema.merge(
+  insertRecipeSchema.pick({ slug: true }).partial(),
+);
 
 async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<GetSchemaType>,
+  res: NextApiResponse<GetSchemaType | string>,
 ) {
-  const user = await getSessionUser(req, res);
-  if (user === undefined) {
-    res.status(StatusCodes.UNAUTHORIZED);
-    return;
-  }
-
+  const user = await requireSessionUser(req, res);
   switch (req.method) {
     case "GET": {
       const selectedRecipes = await database.select().from(recipeSchema);
@@ -36,23 +35,35 @@ async function handler(
       break;
     }
     case "POST": {
-      const slug = req.body.slug ?? "auto-slug";
-      const newRecipe = { ...req.body, userId: user.id, slug };
-      console.log(JSON.stringify(newRecipe));
+      const newRecipe = { ...req.body, userId: user.id };
       const parsed = PostSchema.safeParse(newRecipe);
       if (parsed.success) {
-        const response = await database
-          .insert(recipeSchema)
-          .values(parsed.data)
-          .execute();
-        res.status(StatusCodes.CREATED).end(JSON.stringify(response));
+        let { slug, ...rest } = parsed.data;
+        if (slug === undefined) {
+          slug = slugify(rest.name);
+          var iteration = 0;
+          while (
+            (
+              await database
+                .select({ count: sql<number>`count(*)` })
+                .from(recipeSchema)
+                .where(eq(recipeSchema.slug, slug))
+                .execute()
+            )[0].count > 0
+          ) {
+            slug = slugify(rest.name, iteration);
+          }
+        }
+        const modifiedObject = { ...rest, slug };
+        await database.insert(recipeSchema).values(modifiedObject).execute();
+        res.status(StatusCodes.CREATED).send("created");
       } else {
-        res.status(StatusCodes.BAD_REQUEST).end(parsed.error);
+        res.status(StatusCodes.BAD_REQUEST).send("error");
       }
       break;
     }
     default: {
-      res.status(StatusCodes.METHOD_NOT_ALLOWED);
+      res.status(StatusCodes.METHOD_NOT_ALLOWED).send("error");
       break;
     }
   }

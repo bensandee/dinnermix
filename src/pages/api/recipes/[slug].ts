@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { StatusCodes } from "http-status-codes";
-import { getSessionUser } from "@/lib/auth";
+import { requireSessionUser } from "@/lib/auth";
 import { recipeSchema, selectRecipeSchema } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
 import { slugFromRequest } from "@/lib/slugify";
@@ -13,11 +13,7 @@ const putSchema = getSchema.omit({ userId: true });
 export default withApiAuthRequired(handler);
 
 async function handler(req: NextApiRequest, res: NextApiResponse<string>) {
-  const user = await getSessionUser(req, res);
-  if (user === undefined) {
-    res.status(StatusCodes.UNAUTHORIZED);
-    return;
-  }
+  const user = await requireSessionUser(req, res);
 
   const slug = slugFromRequest(req);
   if (slug === undefined) {
