@@ -6,7 +6,7 @@ updates:
       interval: "weekly"
     target-branch: "develop"
     commit-message:
-      prefix: "fix"
+      prefix: "chore"
       prefix-development: "chore"
     open-pull-requests-limit: 20
 
