@@ -1,4 +1,4 @@
-import { requireSessionUser } from "@/lib/auth";
+import { requireSessionUser } from "@/lib/pagesAuth";
 import { recipeSchema } from "@/lib/db/schema";
 import { slugFromQuery } from "@/lib/slugify";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";

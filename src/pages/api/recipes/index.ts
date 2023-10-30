@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
-import { requireSessionUser } from "@/lib/auth";
+import { requireSessionUser } from "@/lib/pagesAuth";
 import { StatusCodes } from "http-status-codes";
 import {
   selectRecipeSchema,

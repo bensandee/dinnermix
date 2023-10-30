@@ -1,11 +1,16 @@
 import { getSession } from "@auth0/nextjs-auth0";
-import { database } from "./db";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { IncomingMessage, ServerResponse } from "http";
 import { userSchema } from "./db/schema";
 import { eq } from "drizzle-orm";
+import { database } from "./db";
 
 /** return the email address of the session */
-export const getSessionEmail = async () => {
-  const session = await getSession();
+export const getSessionEmail = async (
+  req: NextApiRequest | IncomingMessage,
+  res: NextApiResponse | ServerResponse<IncomingMessage>,
+) => {
+  const session = await getSession(req, res);
   if (session == null) {
     return undefined;
   }
@@ -14,8 +19,11 @@ export const getSessionEmail = async () => {
 };
 
 /** return the user record of the session */
-export const getSessionUser = async () => {
-  const email = await getSessionEmail();
+export const getSessionUser = async (
+  req: NextApiRequest | IncomingMessage,
+  res: NextApiResponse | ServerResponse<IncomingMessage>,
+) => {
+  const email = await getSessionEmail(req, res);
   if (email == null) {
     return undefined;
   }
@@ -36,9 +44,14 @@ export const getSessionUser = async () => {
   return dbUser[0];
 };
 
-export const requireSessionUser = async () => {
-  const user = await getSessionUser();
+export const requireSessionUser = async (
+  req: IncomingMessage,
+  res: ServerResponse<IncomingMessage>,
+) => {
+  const user = await getSessionUser(req, res);
   if (!user) {
+    res.statusCode = 401;
+    res.end();
     throw new Error("Unauthorized");
   }
   return user;
