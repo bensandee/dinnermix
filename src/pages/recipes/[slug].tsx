@@ -11,7 +11,7 @@ export default function Recipe({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (recipe) {
     return (
-      <div>
+      <div className="p-4">
         <h1>{recipe.name}</h1>
         <p>{recipe.description}</p>
       </div>

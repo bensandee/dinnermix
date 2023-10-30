@@ -29,7 +29,9 @@ export default function Home() {
           </Link>
         </div>
         <div>
-          <Button onClick={goAddRecipe}>Add Recipe</Button>
+          <Button className="btn-primary p-4" onClick={goAddRecipe}>
+            Add Recipe
+          </Button>
         </div>
       </>
     );

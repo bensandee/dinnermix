@@ -15,12 +15,7 @@ type FormData = z.infer<typeof formSchema>;
 export default function AddRecipe() {
   const router = useRouter();
 
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
+  const { register, handleSubmit } = useForm<FormData>();
 
   const insertRecipe = async (data: FormData) => {
     await fetch("/api/recipes", {
@@ -37,36 +32,60 @@ export default function AddRecipe() {
 
   return (
     <form onSubmit={onSubmit}>
-      <div className="p-8">
-        <label id="nameLabel" className="p-4">
-          Name
-        </label>
-        <input
-          className="p-4 border-2"
-          aria-labelledby="nameLabel"
-          {...register("name")}
-        />
-      </div>
-      <div>
-        <label id="slugLabel" className="p-4">
-          Slug
-        </label>
-        <input
-          className="p-4 border-2"
-          aria-labelledby="slugLabel"
-          {...register("slug")}
-        />
-      </div>
-      <div>
-        <label>Description</label>
-        <input {...register("description")} />
-      </div>
+      <div className="form-control space-y-2">
+        <h2 className="font-bold">Add New Recipe</h2>
+        <p>
+          New recipes are fun and cool. Add them to <i>your</i> mix.
+        </p>
+        <div className="p-2">
+          <label id="nameLabel" className="label">
+            <span className="label-text">Name</span>
+          </label>
+          <input
+            className="input input-bordered w-1/2"
+            aria-labelledby="nameLabel"
+            {...register("name")}
+          />
+        </div>
 
-      <div>
-        <label>URL</label>
-        <input {...register("url")} />
+        <div className="p-2">
+          <label id="slugLabel" className="label">
+            <span className="label-text">Slug</span>
+          </label>
+          <input
+            className="input input-bordered w-full"
+            aria-labelledby="slugLabel"
+            {...register("slug")}
+          />
+        </div>
+
+        <div className="p-2">
+          <label id="descriptionLabel" className="label">
+            <span className="label-text">Description</span>
+          </label>
+          <textarea
+            {...register("description")}
+            className="textarea textarea-bordered h-24 w-full"
+            aria-labelledby="descriptionLabel"
+          />
+        </div>
+
+        <div className="p-2">
+          <label id="urlLabel" className="label">
+            <span className="label-text">URL</span>
+          </label>
+          <input
+            className="input input-bordered w-full"
+            {...register("url")}
+            aria-labelledby="urlLabel"
+          />
+        </div>
       </div>
-      <Button type="submit">Submit</Button>
+      <div className="relative p-2 w-full">
+        <Button className="btn-primary absolute p-2 w-48 right-2" type="submit">
+          Submit
+        </Button>
+      </div>
     </form>
   );
 }
