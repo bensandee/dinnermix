@@ -38,7 +38,7 @@ const Body = () => {
           className="p-8 hover:text-blue-500 text-green-500"
           href="/profile"
         >
-          Profiles
+          Profile
         </Link>
         <Link className="p-8 hover:text-blue-500" href="/api/auth/logout">
           Logout
