@@ -1,6 +1,6 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { InferGetServerSidePropsType } from "next";
-import { requireSessionUser } from "@/lib/auth";
+import { requireSessionUser } from "@/lib/pagesAuth";
 import { selectUserSchema } from "@/lib/db/schema";
 import { z } from "zod";
 

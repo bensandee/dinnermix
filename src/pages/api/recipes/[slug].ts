@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { StatusCodes } from "http-status-codes";
-import { requireSessionUser } from "@/lib/auth";
+import { requireSessionUser } from "@/lib/pagesAuth";
 import { recipeSchema, selectRecipeSchema } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
 import { slugFromRequest } from "@/lib/slugify";
