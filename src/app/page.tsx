@@ -34,10 +34,7 @@ const Body = () => {
   return (
     <>
       <div className="p-24">
-        <Link
-          className="p-8 hover:text-blue-500 text-green-500"
-          href="/profile"
-        >
+        <Link className="p-8 hover:text-blue-500" href="/profile">
           Profile
         </Link>
         <Link className="p-8 hover:text-blue-500" href="/api/auth/logout">
