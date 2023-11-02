@@ -1,9 +1,7 @@
 import { requireSessionUser } from "@/lib/auth";
-import { recipeSchema } from "@/lib/db/schema";
+import { getRecipe } from "@/lib/db/recipes";
 import { slugify } from "@/lib/slugify";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { and, eq } from "drizzle-orm";
-import { database } from "@/lib/db";
 import { notFound } from "next/navigation";
 
 async function Recipe({
@@ -17,12 +15,7 @@ async function Recipe({
     notFound();
   }
 
-  const where = and(
-    eq(recipeSchema.slug, slug),
-    eq(recipeSchema.userId, user.id),
-  );
-
-  const recipe = await database.select().from(recipeSchema).where(where);
+  const recipe = await getRecipe({ userId: user.id, slug });
   if (recipe.length === 0) {
     notFound();
   }
