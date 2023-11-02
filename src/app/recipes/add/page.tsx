@@ -1,34 +1,23 @@
+"use client";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { insertRecipeSchema } from "@/lib/db/schema";
-import { useRouter } from "next/router";
 import { Button } from "@/components";
+import { useFormStatus } from "react-dom";
+import {
+  insertRecipeAction,
+  InsertRecipeActionType,
+} from "@/components/actions";
 
-/** the normal representation of the recipe outside of mongoose */
-const formSchema = insertRecipeSchema.required().omit({
-  id: true,
-  prepCount: true,
-  userId: true,
-});
-type FormData = z.infer<typeof formSchema>;
+/** the normal representation of the recipe outside of the data layer */
+type FormData = InsertRecipeActionType;
 
 export default function AddRecipe() {
-  const router = useRouter();
-
   const { register, handleSubmit } = useForm<FormData>();
 
-  const insertRecipe = async (data: FormData) => {
-    await fetch("/api/recipes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    await router.push("/recipes");
+  const insertRecipeShim = (data: FormData) => {
+    return insertRecipeAction(data);
   };
 
-  const onSubmit = handleSubmit(insertRecipe);
+  const onSubmit = handleSubmit(insertRecipeShim);
 
   return (
     <form onSubmit={onSubmit}>
@@ -81,11 +70,23 @@ export default function AddRecipe() {
           />
         </div>
       </div>
-      <div className="relative p-2 w-full">
-        <Button className="btn-primary absolute p-2 w-48 right-2" type="submit">
-          Submit
-        </Button>
-      </div>
+      <div className="relative p-2 w-full"></div>
+      <SubmitButton />
     </form>
   );
 }
+
+const SubmitButton = () => {
+  "use client";
+
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      className="btn-primary absolute p-2 w-48 left-2"
+      type="submit"
+      aria-disabled={pending}
+    >
+      Submit
+    </Button>
+  );
+};
