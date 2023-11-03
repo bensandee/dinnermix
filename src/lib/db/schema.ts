@@ -8,6 +8,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
 export const userSchema = pgTable("dm_user", {
   id: serial("id").primaryKey(),
@@ -31,6 +32,8 @@ export const recipeSchema = pgTable("dm_recipe", {
     .notNull(),
 });
 export const selectRecipeSchema = createSelectSchema(recipeSchema);
+export type Recipe = z.infer<typeof selectRecipeSchema>;
+
 export const insertRecipeSchema = createInsertSchema(recipeSchema);
 
 export const recipeHistory = pgTable(

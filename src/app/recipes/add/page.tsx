@@ -1,26 +1,44 @@
 "use client";
-import { useForm } from "react-hook-form";
+import { FieldError, useForm } from "react-hook-form";
 import { Button } from "@/components";
 import { useFormStatus } from "react-dom";
-import {
-  insertRecipeAction,
-  InsertRecipeActionType,
-} from "@/components/actions";
+import { insertRecipeAction } from "@/components/actions";
+import { slugify } from "@/lib/slugify";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-/** the normal representation of the recipe outside of the data layer */
-type FormData = InsertRecipeActionType;
+const formSchema = z.object({
+  name: z.string().min(8),
+  slug: z.string(),
+  description: z.string(),
+  url: z.string().trim().url().or(z.literal("")),
+});
+type FormData = z.infer<typeof formSchema>;
 
 export default function AddRecipe() {
-  const { register, handleSubmit } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setError,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+  });
 
-  const insertRecipeShim = (data: FormData) => {
-    return insertRecipeAction(data);
+  const insertRecipeShim = async (data: FormData) => {
+    const error = await insertRecipeAction(data);
+    if (error !== undefined) {
+      setError("root", { message: error });
+    }
   };
 
-  const onSubmit = handleSubmit(insertRecipeShim);
+  const autoUpdateSlug = (name: string) => {
+    setValue("slug", slugify(name));
+  };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit(insertRecipeShim)}>
       <div className="form-control space-y-2">
         <h2 className="font-bold">Add New Recipe</h2>
         <p>
@@ -31,10 +49,16 @@ export default function AddRecipe() {
             <span className="label-text">Name</span>
           </label>
           <input
+            autoComplete="off"
             className="input input-bordered w-1/2"
             aria-labelledby="nameLabel"
-            {...register("name")}
+            {...register("name", {
+              onChange: (e) => {
+                autoUpdateSlug(e.target.value);
+              },
+            })}
           />
+          <FieldErrorMessage error={errors.name} />
         </div>
 
         <div className="p-2">
@@ -42,10 +66,12 @@ export default function AddRecipe() {
             <span className="label-text">Slug</span>
           </label>
           <input
+            autoComplete="off"
             className="input input-bordered w-full"
             aria-labelledby="slugLabel"
             {...register("slug")}
           />
+          <FieldErrorMessage error={errors.slug} />
         </div>
 
         <div className="p-2">
@@ -54,9 +80,11 @@ export default function AddRecipe() {
           </label>
           <textarea
             {...register("description")}
+            autoComplete="off"
             className="textarea textarea-bordered h-24 w-full"
             aria-labelledby="descriptionLabel"
           />
+          <FieldErrorMessage error={errors.description} />
         </div>
 
         <div className="p-2">
@@ -65,9 +93,11 @@ export default function AddRecipe() {
           </label>
           <input
             className="input input-bordered w-full"
+            autoComplete="off"
             {...register("url")}
             aria-labelledby="urlLabel"
           />
+          <FieldErrorMessage error={errors.url} />
         </div>
       </div>
       <div className="relative p-2 w-full"></div>
@@ -75,6 +105,12 @@ export default function AddRecipe() {
     </form>
   );
 }
+
+const FieldErrorMessage = ({ error }: { error?: FieldError }) => {
+  return (
+    <span className="text-red-700">{error && <p>{error.message}</p>}</span>
+  );
+};
 
 const SubmitButton = () => {
   "use client";

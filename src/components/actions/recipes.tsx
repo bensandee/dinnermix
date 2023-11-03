@@ -9,23 +9,27 @@ import { getRecipeCountBySlug, insertNewRecipe } from "@/lib/db/recipes";
 
 export const insertRecipeAction = async (
   recipeData: InsertRecipeActionType,
-) => {
+): Promise<string | undefined> => {
   console.log(`insertRecipe ${JSON.stringify(recipeData)}`);
   const user = await requireSessionUser();
 
   const newRecipe = { ...recipeData, userId: user.id };
   const parsed = insertRecipeSchema.safeParse(newRecipe);
   if (!parsed.success) {
-    return parsed.error;
+    return parsed.error.message;
   }
 
   let { slug, ...rest } = parsed.data;
+
+  // auto-generate slug if not provided
   if (slug === undefined) {
     slug = slugify(rest.name);
-    var iteration = 0;
-    while ((await getRecipeCountBySlug({ slug })) > 0) {
-      slug = slugify(rest.name, iteration);
-    }
+  }
+
+  // ensure slug is unique
+  var iteration = 0;
+  while ((await getRecipeCountBySlug({ slug })) > 0) {
+    slug = slugify(rest.name, iteration);
   }
   const modifiedObject = { ...rest, slug };
   await insertNewRecipe(modifiedObject);
