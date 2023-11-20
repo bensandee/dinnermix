@@ -14,7 +14,7 @@
     "check-package-updates": "npx npm-check-updates --reject '@types/node'"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^3.2.0",
+    "@auth0/nextjs-auth0": "^3.3.0",
     "@hookform/resolvers": "^3.3.2",
     "dotenv": "^16.3.1",
     "drizzle-orm": "^0.28.6",
