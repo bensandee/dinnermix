@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const insertRecipeActionSchema = insertRecipeSchema
   .omit({
-    userId: true,
+    ownerId: true,
     id: true,
     prepCount: true,
   })

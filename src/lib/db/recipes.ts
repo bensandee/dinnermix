@@ -12,7 +12,7 @@ export const getRecipe = async ({
 }) => {
   const where = and(
     eq(recipeSchema.slug, slug),
-    eq(recipeSchema.userId, userId),
+    eq(recipeSchema.ownerId, userId),
   );
 
   return await database.select().from(recipeSchema).where(where);
@@ -22,7 +22,7 @@ export const getRecipeList = async ({ userId }: { userId: number }) => {
   return await database
     .select()
     .from(recipeSchema)
-    .where(eq(recipeSchema.userId, userId));
+    .where(eq(recipeSchema.ownerId, userId));
 };
 
 export const getRecipeCountBySlug = async ({ slug }: { slug: string }) => {
