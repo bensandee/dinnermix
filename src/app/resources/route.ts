@@ -23,6 +23,6 @@ export const GET = async (request: Request) => {
   return response;
 };
 
-const getRouteData = (url: string) => {
+const getRouteData = (_url: string) => {
   throw new Error();
 };

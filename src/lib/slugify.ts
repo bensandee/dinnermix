@@ -25,7 +25,7 @@ import { ParsedUrlQuery } from "querystring";
 
 // ref: https://gist.github.com/codeguy/6684588#gistcomment-3426313
 
-export const slugify = (...args: any[]): string => {
+export const slugify = (...args: unknown[]): string => {
   const value = args.join(" ");
 
   return value

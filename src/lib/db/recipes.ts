@@ -38,5 +38,5 @@ export const getRecipeCountBySlug = async ({ slug }: { slug: string }) => {
 export const insertNewRecipe = async (
   data: z.infer<typeof insertRecipeSchema>,
 ) => {
-  const insertValue = await database.insert(recipeSchema).values(data);
+  await database.insert(recipeSchema).values(data);
 };

@@ -26,7 +26,7 @@ async function OuterRecipe({
   const user = await requireSessionUser();
   const slug = params?.slug;
   if (slug === undefined || Array.isArray(slug)) {
-    console.log(`could not parse slug from ${slug}`);
+    console.log(`could not parse slug from ${JSON.stringify(slug)}`);
     notFound();
   }
 

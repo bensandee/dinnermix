@@ -27,8 +27,9 @@ export const insertRecipeAction = async (
   }
 
   // ensure slug is unique
-  var iteration = 0;
+  let iteration = 0;
   while ((await getRecipeCountBySlug({ slug })) > 0) {
+    iteration++;
     slug = slugify(rest.name, iteration);
   }
   const modifiedObject = { ...rest, slug };
