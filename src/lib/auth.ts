@@ -1,16 +1,9 @@
 import { getSession } from "@auth0/nextjs-auth0";
-import type { NextApiRequest, NextApiResponse } from "next";
-import { IncomingMessage, ServerResponse } from "http";
-import { userSchema } from "./db/schema";
-import { eq } from "drizzle-orm";
-import { database } from "./db";
+import { getUser, updateUserLastLogin } from "./db/users";
 
 /** return the email address of the session */
-export const getSessionEmail = async (
-  req: NextApiRequest | IncomingMessage,
-  res: NextApiResponse | ServerResponse<IncomingMessage>,
-) => {
-  const session = await getSession(req, res);
+export const getSessionEmail = async () => {
+  const session = await getSession();
   if (session == null) {
     return undefined;
   }
@@ -19,39 +12,25 @@ export const getSessionEmail = async (
 };
 
 /** return the user record of the session */
-export const getSessionUser = async (
-  req: NextApiRequest | IncomingMessage,
-  res: NextApiResponse | ServerResponse<IncomingMessage>,
-) => {
-  const email = await getSessionEmail(req, res);
+export const getSessionUser = async () => {
+  const email = await getSessionEmail();
   if (email == null) {
     return undefined;
   }
-  const dbUser = await database
-    .select()
-    .from(userSchema)
-    .where(eq(userSchema.email, email));
-  if (dbUser.length === 0) {
+  const user = await getUser({ email });
+  if (!user) {
     console.log(`missing user record for ${email}`);
     return undefined;
   } else {
     console.log("updating last login date");
-    await database
-      .update(userSchema)
-      .set({ lastLogin: new Date() })
-      .where(eq(userSchema.id, dbUser[0].id));
+    await updateUserLastLogin({ userId: user.id });
   }
-  return dbUser[0];
+  return user;
 };
 
-export const requireSessionUser = async (
-  req: IncomingMessage,
-  res: ServerResponse<IncomingMessage>,
-) => {
-  const user = await getSessionUser(req, res);
+export const requireSessionUser = async () => {
+  const user = await getSessionUser();
   if (!user) {
-    res.statusCode = 401;
-    res.end();
     throw new Error("Unauthorized");
   }
   return user;

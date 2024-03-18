@@ -1,5 +1,4 @@
 import {
-  integer,
   text,
   pgTable,
   varchar,
@@ -8,6 +7,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
 export const userSchema = pgTable("dm_user", {
   id: serial("id").primaryKey(),
@@ -25,16 +25,27 @@ export const recipeSchema = pgTable("dm_recipe", {
   slug: varchar("slug", { length: 120 }).unique().notNull(),
   description: text("description"),
   url: varchar("url", { length: 400 }),
-  prepCount: integer("prepCount").notNull().default(0),
-  userId: serial("userId")
+  ownerId: serial("ownerId")
     .references(() => userSchema.id)
     .notNull(),
 });
 export const selectRecipeSchema = createSelectSchema(recipeSchema);
+export type Recipe = z.infer<typeof selectRecipeSchema>;
+
+export const recipeAttachmentSchema = pgTable("dm_recipe_attachment", {
+  id: serial("id").primaryKey(),
+  recipeId: serial("recipeId")
+    .notNull()
+    .references(() => recipeSchema.id),
+  uuid: varchar("uuid", { length: 36 }).notNull(),
+  contentType: varchar("contentType", { length: 30 }).notNull(),
+  filename: varchar("filename", { length: 120 }),
+});
+
 export const insertRecipeSchema = createInsertSchema(recipeSchema);
 
 export const recipeHistory = pgTable(
-  "dm_recipe_owner",
+  "dm_recipe_history",
   {
     recipeId: serial("recipeId")
       .notNull()
@@ -42,9 +53,9 @@ export const recipeHistory = pgTable(
     userId: serial("userId")
       .notNull()
       .references(() => userSchema.id),
-    datePrepared: timestamp("datePrepared").notNull(),
+    preparedOn: timestamp("preparedOn").notNull(),
   },
   (table) => {
-    return { pkf: primaryKey(table.recipeId, table.userId) };
+    return { pkf: primaryKey({ columns: [table.recipeId, table.userId] }) };
   },
 );

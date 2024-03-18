@@ -8,6 +8,7 @@ module.exports = {
   extends: [
     //"next/core-web-vitals",
     "eslint:recommended",
+    "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
     "plugin:@next/next/recommended",
@@ -27,9 +28,10 @@ module.exports = {
     "require-await": ["warn"],
     // Note: you must disable the base rule as it can report incorrect errors
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/strict-boolean-expressions": "warn",
+    "prefer-const": ["warn", { destructuring: "all" }],
   },
   settings: {
     react: {

@@ -1,4 +1,4 @@
-import { PostgresJsDatabase } from "drizzle-orm/pg-serverless";
+import { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 
 declare global {
   var drizzle: PostgresJsDatabase | undefined;

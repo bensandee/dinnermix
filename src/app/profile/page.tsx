@@ -1,5 +1,4 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { InferGetServerSidePropsType } from "next";
 import { requireSessionUser } from "@/lib/auth";
 import { selectUserSchema } from "@/lib/db/schema";
 import { z } from "zod";
@@ -9,10 +8,9 @@ const adaptedLastLogin = z.object({ lastLogin: z.coerce.string() });
 const adaptedUser = selectUserSchema.merge(adaptedLastLogin);
 
 /** demonstrate display of SSR-side profile data */
-export default function Profile({
-  profile,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { name, ...rest } = profile;
+async function ProfileIndex() {
+  const sessionUser = await requireSessionUser();
+  const { name, ...rest } = adaptedUser.parse(sessionUser);
   return (
     <div>
       Hello {name} and {JSON.stringify(rest, null, 2)}
@@ -20,9 +18,4 @@ export default function Profile({
   );
 }
 
-export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({ req, res }) {
-    const profile = await requireSessionUser(req, res);
-    return { props: { profile: adaptedUser.parse(profile) } };
-  },
-});
+export default withPageAuthRequired(ProfileIndex, { returnTo: "/" });
