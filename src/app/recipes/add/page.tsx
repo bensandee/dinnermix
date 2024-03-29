@@ -38,7 +38,6 @@ export default function AddRecipe() {
   };
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(insertRecipeShim)}>
       <div className="form-control space-y-2">
         <h2 className="font-bold">Add New Recipe</h2>
