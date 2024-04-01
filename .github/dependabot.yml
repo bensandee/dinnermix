@@ -3,8 +3,8 @@ updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "weekly"
-    target-branch: "develop"
+      interval: "monthly"
+    target-branch: "main"
     commit-message:
       prefix: "chore"
       prefix-development: "chore"
