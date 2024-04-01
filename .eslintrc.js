@@ -32,6 +32,14 @@ module.exports = {
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/strict-boolean-expressions": "warn",
     "prefer-const": ["warn", { destructuring: "all" }],
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        checksVoidReturn: {
+          attributes: false,
+        },
+      },
+    ],
   },
   settings: {
     react: {

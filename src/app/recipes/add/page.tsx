@@ -38,7 +38,6 @@ export default function AddRecipe() {
   };
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(insertRecipeShim)}>
       <div className="form-control space-y-2">
         <h2 className="font-bold">Add New Recipe</h2>
@@ -54,9 +53,9 @@ export default function AddRecipe() {
             className="input input-bordered w-1/2"
             aria-labelledby="nameLabel"
             {...register("name", {
-              onChange: (e) => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-                autoUpdateSlug(e.target.value);
+              onChange: (e: Event) => {
+                const target = e.target as HTMLInputElement;
+                autoUpdateSlug(target.value);
               },
             })}
           />
