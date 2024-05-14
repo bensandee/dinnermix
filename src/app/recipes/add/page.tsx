@@ -6,6 +6,7 @@ import { insertRecipeAction } from "@/components/actions";
 import { slugify } from "@/lib/slugify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(8),
@@ -103,6 +104,7 @@ export default function AddRecipe() {
       </div>
       <div className="relative p-2 w-full"></div>
       <SubmitButton />
+      <CancelButton />
     </form>
   );
 }
@@ -114,16 +116,32 @@ const FieldErrorMessage = ({ error }: { error?: FieldError }) => {
 };
 
 const SubmitButton = () => {
-  "use client";
-
   const { pending } = useFormStatus();
   return (
     <Button
-      className="btn-primary absolute p-2 w-48 left-2"
+      className="btn-primary bg-blue-400 text-lg p-2 w-48 m-4 hover:bg-blue-500"
       type="submit"
       aria-disabled={pending}
     >
       Submit
+    </Button>
+  );
+};
+
+const CancelButton = () => {
+  const router = useRouter();
+
+  const onCancel = () => {
+    router.back();
+  };
+
+  return (
+    <Button
+      className="btn-secondary bg-gray-400 text-lg p-2 w-48 m-4 hover:bg-gray-500"
+      type="button"
+      onClick={onCancel}
+    >
+      Cancel
     </Button>
   );
 };
