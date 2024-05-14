@@ -5,7 +5,6 @@ export const insertRecipeActionSchema = insertRecipeSchema
   .omit({
     ownerId: true,
     id: true,
-    prepCount: true,
   })
   .required();
 
