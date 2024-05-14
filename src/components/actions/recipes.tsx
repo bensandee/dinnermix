@@ -1,7 +1,7 @@
 "use server";
 
 import { requireSessionUser } from "@/lib/auth";
-import { insertRecipeSchema } from "@/lib/db/schema";
+import { InsertRecipe, insertRecipeSchema } from "@/lib/db/schema";
 import { redirect } from "next/navigation";
 import { slugify } from "@/lib/slugify";
 import { InsertRecipeActionType } from "./types";
@@ -13,7 +13,7 @@ export const insertRecipeAction = async (
   console.log(`insertRecipe ${JSON.stringify(recipeData)}`);
   const user = await requireSessionUser();
 
-  const newRecipe = { ...recipeData, userId: user.id };
+  const newRecipe: InsertRecipe = { ...recipeData, ownerId: user.id };
   const parsed = insertRecipeSchema.safeParse(newRecipe);
   if (!parsed.success) {
     return parsed.error.message;

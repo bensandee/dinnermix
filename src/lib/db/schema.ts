@@ -17,7 +17,7 @@ export const userSchema = pgTable("dm_user", {
 });
 
 export const selectUserSchema = createSelectSchema(userSchema);
-export const insertUserSchema = createInsertSchema(userSchema);
+export const insertUserSchema = createInsertSchema(userSchema).strict();
 
 export const recipeSchema = pgTable("dm_recipe", {
   id: serial("id").primaryKey(),
@@ -42,7 +42,8 @@ export const recipeAttachmentSchema = pgTable("dm_recipe_attachment", {
   filename: varchar("filename", { length: 120 }),
 });
 
-export const insertRecipeSchema = createInsertSchema(recipeSchema);
+export const insertRecipeSchema = createInsertSchema(recipeSchema).strict();
+export type InsertRecipe = z.infer<typeof insertRecipeSchema>;
 
 export const recipeHistory = pgTable(
   "dm_recipe_history",
