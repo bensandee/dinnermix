@@ -119,7 +119,7 @@ const SubmitButton = () => {
   const { pending } = useFormStatus();
   return (
     <Button
-      className="btn-primary bg-blue-400 text-lg p-2 w-48 m-4 hover:bg-blue-500"
+      className="btn btn-primary p-2 w-48 m-4"
       type="submit"
       aria-disabled={pending}
     >
@@ -137,7 +137,7 @@ const CancelButton = () => {
 
   return (
     <Button
-      className="btn-secondary bg-gray-400 text-lg p-2 w-48 m-4 hover:bg-gray-500"
+      className="btn btn-secondary p-2 w-48 m-4"
       type="button"
       onClick={onCancel}
     >

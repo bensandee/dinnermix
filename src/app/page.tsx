@@ -33,19 +33,19 @@ const Body = () => {
 
   return (
     <>
-      <div className="p-24">
-        <Link className="p-8 hover:text-blue-500" href="/profile">
+      <div className="navbar bg-base-100">
+        <a className="btn btn-ghost text-xl" href="/profile">
           Profile
-        </Link>
-        <Link className="p-8 hover:text-blue-500" href="/api/auth/logout">
+        </a>
+        <a className="btn btn-ghost text-xl" href="/api/auth/logout">
           Logout
-        </Link>
-        <Link className="p-8 hover:text-blue-500" href="/recipes">
+        </a>
+        <a className="btn btn-ghost text-xl" href="/recipes">
           Recipes
-        </Link>
+        </a>
       </div>
       <div>
-        <Button className="btn-primary p-4" onClick={goAddRecipe}>
+        <Button className="btn btn-primary p-4" onClick={goAddRecipe}>
           Add Recipe
         </Button>
       </div>
