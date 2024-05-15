@@ -40,12 +40,14 @@ export default function AddRecipe() {
 
   return (
     <form onSubmit={handleSubmit(insertRecipeShim)}>
-      <div className="form-control space-y-2">
-        <h2 className="font-bold">Add New Recipe</h2>
-        <p>
-          New recipes are fun and cool. Add them to <i>your</i> mix.
-        </p>
-        <div className="p-2">
+      <div className="form-control space-y-2 p-2">
+        <div>
+          <h1 className="font-bold text-2xl">Add New Recipe</h1>
+          <p className="text-sm">
+            New recipes are fun and cool. Add them to <i>your</i> mix.
+          </p>
+        </div>
+        <div>
           <label id="nameLabel" className="label">
             <span className="label-text">Name</span>
           </label>
@@ -63,7 +65,7 @@ export default function AddRecipe() {
           <FieldErrorMessage error={errors.name} />
         </div>
 
-        <div className="p-2">
+        <div>
           <label id="slugLabel" className="label">
             <span className="label-text">Slug</span>
           </label>
@@ -76,7 +78,7 @@ export default function AddRecipe() {
           <FieldErrorMessage error={errors.slug} />
         </div>
 
-        <div className="p-2">
+        <div>
           <label id="descriptionLabel" className="label">
             <span className="label-text">Description</span>
           </label>
@@ -89,7 +91,7 @@ export default function AddRecipe() {
           <FieldErrorMessage error={errors.description} />
         </div>
 
-        <div className="p-2">
+        <div>
           <label id="urlLabel" className="label">
             <span className="label-text">URL</span>
           </label>
@@ -102,9 +104,10 @@ export default function AddRecipe() {
           <FieldErrorMessage error={errors.url} />
         </div>
       </div>
-      <div className="relative p-2 w-full"></div>
-      <SubmitButton />
-      <CancelButton />
+      <div className="relative p-2 w-full">
+        <SubmitButton />
+        <CancelButton />
+      </div>
     </form>
   );
 }
