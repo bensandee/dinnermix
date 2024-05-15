@@ -26,11 +26,11 @@ export const getSessionUser = async () => {
   if (email == null) {
     return undefined;
   }
-  const user = await getUser({ email });
+  let user = await getUser({ email });
   if (!user) {
     console.log(`missing user record for ${email}, creating now`);
     const name = (await getSessionName()) ?? email;
-    await createUser({ email, name });
+    user = await createUser({ email, name });
   } else {
     console.log("updating last login date");
     await updateUserLastLogin({ userId: user.id });

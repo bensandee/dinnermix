@@ -11,6 +11,9 @@ export const getUser = async ({ email }: { email: string }) => {
   if (users.length === 0) {
     return undefined;
   }
+  if (users.length > 1) {
+    throw new Error(`multiple users found for email ${email}`);
+  }
   return users[0];
 };
 
@@ -25,8 +28,11 @@ export const createUser = async ({
   const user = await database
     .insert(userSchema)
     .values({ email, name, lastLogin: new Date() })
-    .execute();
-  return user;
+    .returning();
+  if (user.length !== 1) {
+    throw new Error(`failed to create user ${email}`);
+  }
+  return user[0];
 };
 
 /** bump the last login timestamp */
