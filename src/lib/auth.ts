@@ -1,5 +1,5 @@
 import { getSession } from "@auth0/nextjs-auth0";
-import { getUser, updateUserLastLogin } from "./db/users";
+import { createUser, getUser, updateUserLastLogin } from "./db/users";
 
 /** return the email address of the session */
 export const getSessionEmail = async () => {
@@ -11,6 +11,15 @@ export const getSessionEmail = async () => {
   return `${email}`;
 };
 
+export const getSessionName = async () => {
+  const session = await getSession();
+  if (session == null) {
+    return undefined;
+  }
+  const { nickname } = session.user;
+  return `${nickname}`;
+};
+
 /** return the user record of the session */
 export const getSessionUser = async () => {
   const email = await getSessionEmail();
@@ -19,8 +28,9 @@ export const getSessionUser = async () => {
   }
   const user = await getUser({ email });
   if (!user) {
-    console.log(`missing user record for ${email}`);
-    return undefined;
+    console.log(`missing user record for ${email}, creating now`);
+    const name = (await getSessionName()) ?? email;
+    await createUser({ email, name });
   } else {
     console.log("updating last login date");
     await updateUserLastLogin({ userId: user.id });
