@@ -3,15 +3,16 @@
   "version": "0.2.0-alpha",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "check-package-updates": "npx npm-check-updates",
+    "db:push": "drizzle-kit push",
+    "dev": "next dev",
     "lint": "next lint",
+    "migrations:drop": "drizzle-kit drop",
     "migrations:generate": "drizzle-kit generate",
     "migrations:push": "node -r esbuild-register src/lib/db/migrate.ts",
-    "db:push": "drizzle-kit push",
-    "migrations:drop": "drizzle-kit drop",
-    "check-package-updates": "npx npm-check-updates"
+    "start": "next start",
+    "studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
