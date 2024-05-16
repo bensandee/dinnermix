@@ -1,10 +1,8 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
+import { databaseUrl } from "./config";
 
-if (process.env.DATABASE_URL === undefined) {
-  throw new Error("DATABASE_URL is not set in the environment variables");
-}
 // create database connection
-const connection = postgres(process.env.DATABASE_URL);
+const connection = postgres(databaseUrl);
 
 export const database = drizzle(connection);

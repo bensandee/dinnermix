@@ -7,10 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrations:generate": "drizzle-kit generate:pg",
+    "migrations:generate": "drizzle-kit generate",
     "migrations:push": "node -r esbuild-register src/lib/db/migrate.ts",
-    "db:push": "drizzle-kit push:pg",
-    "migrations:drop": "drizzle-kit drop --config=drizzle.config.ts",
+    "db:push": "drizzle-kit push",
+    "migrations:drop": "drizzle-kit drop",
     "check-package-updates": "npx npm-check-updates"
   },
   "dependencies": {
