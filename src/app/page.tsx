@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "@/components";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
@@ -31,6 +29,10 @@ const Body = () => {
     router.push("/recipes/add");
   };
 
+  const goImportRecipe = () => {
+    router.push("/recipes/import");
+  };
+
   return (
     <>
       <div className="navbar bg-base-100">
@@ -44,10 +46,13 @@ const Body = () => {
           Recipes
         </a>
       </div>
-      <div>
-        <Button className="btn btn-primary p-4" onClick={goAddRecipe}>
+      <div className="space-x-2">
+        <button className="btn btn-primary" onClick={goAddRecipe}>
           Add Recipe
-        </Button>
+        </button>
+        <button className="btn btn-secondary" onClick={goImportRecipe}>
+          Import Recipes
+        </button>
       </div>
     </>
   );
@@ -61,9 +66,9 @@ const UnauthenticatedBody = () => {
   };
   return (
     <div className="p-24">
-      <Button className="btn-primary p-4" onClick={goLogin}>
+      <button className="btn btn-primary p-4" onClick={goLogin}>
         Login
-      </Button>
+      </button>
     </div>
   );
 };

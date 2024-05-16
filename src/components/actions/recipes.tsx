@@ -7,6 +7,13 @@ import { slugify } from "@/lib/slugify";
 import { InsertRecipeActionType } from "./types";
 import { getRecipeCountBySlug, insertNewRecipe } from "@/lib/db/recipes";
 
+export const importRecipesAction = async (formData: FormData) => {
+  "use server";
+  const file = formData.get("file") as File;
+  const data = await file.arrayBuffer();
+  console.log(`File name: ${file.name}, size: ${data.byteLength}`);
+};
+
 export const insertRecipeAction = async (
   recipeData: InsertRecipeActionType,
 ): Promise<string | undefined> => {

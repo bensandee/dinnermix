@@ -1,6 +1,5 @@
 "use client";
 import { FieldError, useForm } from "react-hook-form";
-import { Button } from "@/components";
 import { useFormStatus } from "react-dom";
 import { insertRecipeAction } from "@/components/actions";
 import { slugify } from "@/lib/slugify";
@@ -103,10 +102,10 @@ export default function AddRecipe() {
           />
           <FieldErrorMessage error={errors.url} />
         </div>
-      </div>
-      <div className="relative p-2 w-full">
-        <SubmitButton />
-        <CancelButton />
+        <div className="space-x-4 text-end">
+          <CancelButton />
+          <SubmitButton />
+        </div>
       </div>
     </form>
   );
@@ -121,13 +120,13 @@ const FieldErrorMessage = ({ error }: { error?: FieldError }) => {
 const SubmitButton = () => {
   const { pending } = useFormStatus();
   return (
-    <Button
-      className="btn btn-primary p-2 w-48 m-4"
+    <button
+      className="btn btn-primary min-w-24"
       type="submit"
       aria-disabled={pending}
     >
       Submit
-    </Button>
+    </button>
   );
 };
 
@@ -139,12 +138,12 @@ const CancelButton = () => {
   };
 
   return (
-    <Button
-      className="btn btn-secondary p-2 w-48 m-4"
+    <button
+      className="btn btn-secondary min-w-24"
       type="button"
       onClick={onCancel}
     >
       Cancel
-    </Button>
+    </button>
   );
 };
