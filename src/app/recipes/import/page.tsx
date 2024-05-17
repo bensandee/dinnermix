@@ -8,9 +8,11 @@ export default function Page() {
           CSV file
         </label>
         <input className="input" type="file" name="file" id="file" />
-        <button className="btn btn-primary" type="submit">
-          Upload File
-        </button>
+        <div>
+          <button className="btn btn-primary" type="submit">
+            Upload File
+          </button>
+        </div>
       </div>
     </form>
   );

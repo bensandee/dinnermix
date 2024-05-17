@@ -8,7 +8,7 @@ const adaptedLastLogin = z.object({ lastLogin: z.coerce.string() });
 const adaptedUser = selectUserSchema.merge(adaptedLastLogin);
 
 /** demonstrate display of SSR-side profile data */
-async function ProfileIndex() {
+async function Page() {
   const sessionUser = await requireSessionUser();
   const { name, ...rest } = adaptedUser.parse(sessionUser);
   return (
@@ -18,4 +18,4 @@ async function ProfileIndex() {
   );
 }
 
-export default withPageAuthRequired(ProfileIndex, { returnTo: "/" });
+export default withPageAuthRequired(Page, { returnTo: "/" });

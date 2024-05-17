@@ -42,7 +42,9 @@ export const recipeAttachmentSchema = pgTable("dm_recipe_attachment", {
   filename: varchar("filename", { length: 120 }),
 });
 
-export const insertRecipeSchema = createInsertSchema(recipeSchema).strict();
+export const insertRecipeSchema = createInsertSchema(recipeSchema)
+  .required({ ownerId: true })
+  .strict();
 export type InsertRecipe = z.infer<typeof insertRecipeSchema>;
 
 export const recipeHistory = pgTable(

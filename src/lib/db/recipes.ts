@@ -1,7 +1,6 @@
-import { insertRecipeSchema, recipeSchema } from "@/lib/db/schema";
+import { InsertRecipe, recipeSchema } from "@/lib/db/schema";
 import { and, eq, sql } from "drizzle-orm";
 import { database } from "@/lib/db";
-import { z } from "zod";
 
 export const getRecipe = async ({
   slug,
@@ -35,8 +34,10 @@ export const getRecipeCountBySlug = async ({ slug }: { slug: string }) => {
   )[0].count;
 };
 
-export const insertNewRecipe = async (
-  data: z.infer<typeof insertRecipeSchema>,
-) => {
+export const insertNewRecipe = async (data: InsertRecipe) => {
+  await database.insert(recipeSchema).values(data);
+};
+
+export const bulkInsertRecipes = async (data: InsertRecipe[]) => {
   await database.insert(recipeSchema).values(data);
 };

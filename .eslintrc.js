@@ -10,10 +10,10 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:react/recommended",
+    "plugin:promise/recommended",
     "plugin:prettier/recommended",
     "plugin:@next/next/recommended",
     "plugin:react/jsx-runtime",
-    "prettier",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -25,10 +25,15 @@ module.exports = {
   reportUnusedDisableDirectives: true,
   rules: {
     eqeqeq: ["warn", "smart"],
-    "require-await": ["warn"],
+
+    // Note: you must disable the base rule as it can report incorrect errors
+    "require-await": "off",
+    "@typescript-eslint/require-await": "error",
+
     // Note: you must disable the base rule as it can report incorrect errors
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/strict-boolean-expressions": "warn",
     "prefer-const": ["warn", { destructuring: "all" }],

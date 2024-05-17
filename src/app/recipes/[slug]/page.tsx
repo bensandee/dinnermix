@@ -4,7 +4,7 @@ import { Recipe } from "@/lib/db/schema";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { notFound } from "next/navigation";
 
-const RenderRecipe = ({ recipe }: { recipe: Recipe }) => {
+const RecipeInfo = ({ recipe }: { recipe: Recipe }) => {
   return (
     <div className="p-4">
       <h1>{recipe.name}</h1>
@@ -18,7 +18,7 @@ const RenderRecipe = ({ recipe }: { recipe: Recipe }) => {
   );
 };
 
-async function OuterRecipe({
+async function Page({
   params,
 }: {
   params?: Record<string, string | string[]>;
@@ -35,7 +35,7 @@ async function OuterRecipe({
     console.log(`recipe not found with slug ${slug}`);
     notFound();
   }
-  return <RenderRecipe recipe={recipe[0]} />;
+  return <RecipeInfo recipe={recipe[0]} />;
 }
 
-export default withPageAuthRequired(OuterRecipe, { returnTo: "/" });
+export default withPageAuthRequired(Page, { returnTo: "/" });
