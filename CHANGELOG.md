@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.2.0-alpha.1](https://github.com/bensandee/dinnermix/compare/dinnermix-v0.2.0-alpha...dinnermix-v0.2.0-alpha.1) (2024-05-21)
+
+
+### Features
+
+* add cancel button to add recipe ([17cb3a5](https://github.com/bensandee/dinnermix/commit/17cb3a587717d01e8a42535237bfcde3c9552f21))
+* initial insert from csv support ([08f8c4f](https://github.com/bensandee/dinnermix/commit/08f8c4fb55d96bd892ce454dcd2e9ea4c6e78943))
+* prepare for deployment ([7508f3d](https://github.com/bensandee/dinnermix/commit/7508f3d6634b25521fe91cd1fee4c75a0c0a99a2))
+
+
+### Bug Fixes
+
+* create user account when encountering a new email ([75e6aeb](https://github.com/bensandee/dinnermix/commit/75e6aeb38627782f9d4e440a037291e93e09ffd0))
+* enable jest path mapping ([42e5153](https://github.com/bensandee/dinnermix/commit/42e5153f1d7a10248e46adf2a10d9f06f67bb8d5))
+* prepCount field doesn't exist ([9fcc970](https://github.com/bensandee/dinnermix/commit/9fcc97090d18979ad482e163e112a78041091326))
+* properly create user record when not found ([1dc37a0](https://github.com/bensandee/dinnermix/commit/1dc37a0a28f57b2e12b46dac9839cf00d5ef7534))
+* sql insert schemas should be strict to catch changing types ([5a0db54](https://github.com/bensandee/dinnermix/commit/5a0db549e46bcb8dbc61737b9643938ea35bfa11))
+* unify db connection env usages ([a08be54](https://github.com/bensandee/dinnermix/commit/a08be549dab0a256392acaab68457486a212be7b))
+* update drizzle-kit to 0.21.1 ([0f59c60](https://github.com/bensandee/dinnermix/commit/0f59c60aecc63dcfb7769cc3ba43250ec516f9a2))
+* use daisyui styles for buttons, etc ([800f788](https://github.com/bensandee/dinnermix/commit/800f788827077ef2e80ffb9481574a0e313f5bb5))
+
 ## [0.2.0-alpha](https://github.com/bensandee/dinnermix/compare/dinnermix-v0.1.0...dinnermix-v0.2.0-alpha) (2024-03-18)
 
 
