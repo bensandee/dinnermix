@@ -1,6 +1,6 @@
 import type { Config } from "drizzle-kit";
 import "dotenv/config";
-import { databaseUrl } from "@/lib/db/config";
+import { configuration } from "@/lib/config";
 
 export default {
   dialect: "postgresql",
@@ -8,6 +8,6 @@ export default {
   out: "./src/lib/db/migrations",
   verbose: true,
   dbCredentials: {
-    url: databaseUrl,
+    url: configuration.postgresConfiguration.url,
   },
 } satisfies Config;

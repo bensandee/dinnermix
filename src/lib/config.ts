@@ -4,12 +4,15 @@ type PostgresConfiguration = {
 
 export type Configuration = {
   postgresConfiguration: PostgresConfiguration;
-  resourcePath: string;
   isDevelopment: boolean;
 };
 
+const databaseUrl = process.env.DATABASE_URL;
+if (databaseUrl === undefined) {
+  throw new Error("DATABASE_URL is not set in the environment variables");
+}
+
 export const configuration: Configuration = {
-  postgresConfiguration: { url: process.env["DATABASE_URL"] as string },
-  resourcePath: process.env["RESOURCE_PATH"] ?? "resources",
+  postgresConfiguration: { url: databaseUrl },
   isDevelopment: process.env["NODE_ENV"] === "development",
 };

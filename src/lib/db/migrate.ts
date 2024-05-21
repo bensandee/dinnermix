@@ -2,11 +2,13 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import "dotenv/config";
 import postgres from "postgres";
-import { databaseUrl } from "./config";
+import { configuration } from "../config";
 
 // inspired by Raphael Moreau @rphlmr for Postgres, extended for Planetscale
 const runMigrate = async () => {
-  const connection = postgres(databaseUrl, { max: 1 });
+  const connection = postgres(configuration.postgresConfiguration.url, {
+    max: 1,
+  });
 
   const db = drizzle(connection);
 
