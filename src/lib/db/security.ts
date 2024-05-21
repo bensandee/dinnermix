@@ -1,6 +1,7 @@
 import { and, eq } from "drizzle-orm";
 import { database } from ".";
 import { recipeAttachmentSchema, recipeSchema, userSchema } from "./schema";
+import "server-only";
 
 type CheckAttachmentAccessProps = {
   userId: number;

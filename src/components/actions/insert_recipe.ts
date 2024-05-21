@@ -5,7 +5,7 @@ import { requireSessionUser } from "@/lib/auth";
 import { InsertRecipe, insertRecipeSchema } from "@/lib/db/schema";
 import { InsertRecipeActionType } from "./types";
 import { insertNewRecipe } from "@/lib/db/recipes";
-import { getRecipeSlug } from "../slugs";
+import { getRecipeSlug } from "../../lib/recipes/slugs";
 
 export const insertRecipeAction = async (
   recipeData: InsertRecipeActionType,
@@ -19,8 +19,11 @@ export const insertRecipeAction = async (
     return parsed.error.message;
   }
 
-  const { slug: initialSlug, ...rest } = parsed.data;
-  const actualSlug = await getRecipeSlug(initialSlug, rest.name);
+  const { slug, ...rest } = parsed.data;
+  const actualSlug = await getRecipeSlug({
+    slug,
+    recipeName: rest.name,
+  });
 
   const modifiedObject = { ...rest, slug: actualSlug };
   await insertNewRecipe(modifiedObject);

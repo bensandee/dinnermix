@@ -1,10 +1,10 @@
 "use server";
 
 import { requireSessionUser } from "@/lib/auth";
-import { importRecipesFromCsvBuffer } from "../recipes";
+import { importRecipesFromCsvBuffer } from "../../lib/recipes/recipes";
 import { insertNewRecipe } from "@/lib/db/recipes";
 import { redirect } from "next/navigation";
-import { getRecipeSlug } from "../slugs";
+import { getRecipeSlug } from "../../lib/recipes/slugs";
 
 // keep server action modules as simple as possible due to strange issues w/calling non-async functions
 export const importRecipesAction = async (formData: FormData) => {

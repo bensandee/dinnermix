@@ -1,6 +1,7 @@
 import { userSchema } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { database } from "@/lib/db";
+import "server-only";
 
 /** lookup user by email */
 export const getUser = async ({ email }: { email: string }) => {
