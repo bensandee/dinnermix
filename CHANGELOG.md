@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0-alpha.2](https://github.com/bensandee/dinnermix/compare/dinnermix-v0.2.0-alpha.1...dinnermix-v0.2.0-alpha.2) (2024-05-21)
+
+
+### Bug Fixes
+
+* add pm2 script commands + dep ([4d455b9](https://github.com/bensandee/dinnermix/commit/4d455b915933ffcdfa2f8143da55e1605b7f723a))
+
 ## [0.2.0-alpha.1](https://github.com/bensandee/dinnermix/compare/dinnermix-v0.2.0-alpha...dinnermix-v0.2.0-alpha.1) (2024-05-21)
 
 
