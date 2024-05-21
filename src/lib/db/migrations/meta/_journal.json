@@ -1,1 +1,13 @@
-{"version":"5","dialect":"pg","entries":[]}
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1716318474296,
+      "tag": "0000_serious_night_thrasher",
+      "breakpoints": true
+    }
+  ]
+}
