@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.0-alpha.3](https://github.com/bensandee/dinnermix/compare/dinnermix-v0.2.0-alpha.2...dinnermix-v0.2.0-alpha.3) (2024-05-21)
+
+
+### Bug Fixes
+
+* add missing migration schema for drizzle ([93964d0](https://github.com/bensandee/dinnermix/commit/93964d063712930ba0da3d7df84cc6ca7eeb259a))
+* remove duplicate configuration repositories ([65febec](https://github.com/bensandee/dinnermix/commit/65febec68ec68d8840ef52e3e2468cb4ae08f8d6))
+* update release-please versioning scheme ([86c38a1](https://github.com/bensandee/dinnermix/commit/86c38a1504240358af7ef31439708af2b76d4f0a))
+
 ## [0.2.0-alpha.2](https://github.com/bensandee/dinnermix/compare/dinnermix-v0.2.0-alpha.1...dinnermix-v0.2.0-alpha.2) (2024-05-21)
 
 
