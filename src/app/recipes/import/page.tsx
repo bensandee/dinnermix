@@ -1,4 +1,4 @@
-import { importRecipesAction } from "@/components/actions";
+import { importRecipesAction } from "@/actions";
 
 export default function Page() {
   return (

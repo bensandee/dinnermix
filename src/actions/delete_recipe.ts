@@ -1,8 +1,8 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { requireSessionUser } from "@/lib/auth";
 import { deleteRecipe } from "@/lib/db/recipes";
-import { redirect } from "next/navigation";
 
 export const deleteRecipeAction = async (formData: FormData) => {
   const user = await requireSessionUser();

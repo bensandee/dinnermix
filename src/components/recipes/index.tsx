@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { IconButton } from "../IconButton";
-import { deleteRecipeAction } from "../actions";
+import { deleteRecipeAction } from "../../actions";
 import { Recipe } from "@/lib/db/schema";
 
 export type RecipeProps = { recipe: Recipe };

@@ -1,7 +1,7 @@
 "use client";
 import { FieldError, useForm } from "react-hook-form";
 import { useFormStatus } from "react-dom";
-import { insertRecipeAction } from "@/components/actions";
+import { insertRecipeAction } from "@/actions";
 import { slugify } from "@/lib/slugify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";

@@ -33,7 +33,7 @@ export const deleteRecipe = async ({
   recipeId: number;
   ownerId: number;
 }) => {
-  return await database
+  await database
     .delete(recipeSchema)
     .where(
       and(eq(recipeSchema.id, recipeId), eq(recipeSchema.ownerId, ownerId)),

@@ -3,9 +3,9 @@
 import { redirect } from "next/navigation";
 import { requireSessionUser } from "@/lib/auth";
 import { InsertRecipe, insertRecipeSchema } from "@/lib/db/schema";
-import { InsertRecipeActionType } from "./types";
 import { insertNewRecipe } from "@/lib/db/recipes";
-import { getRecipeSlug } from "../../lib/recipes/slugs";
+import { getRecipeSlug } from "@/lib/recipes/slugs";
+import { InsertRecipeActionType } from "./types";
 
 export const insertRecipeAction = async (
   recipeData: InsertRecipeActionType,
