@@ -4,18 +4,30 @@ import { useRef } from "react";
 import { IconButton } from "../IconButton";
 import { deleteRecipeAction } from "../../actions";
 import { Recipe } from "@/lib/db/schema";
+import Link from "next/link";
 
 export type RecipeProps = { recipe: Recipe };
 
 export const RecipeName = ({ recipe }: RecipeProps) => {
+  return (
+    <Link
+      className="link-primary"
+      href={{ pathname: `/recipes/${recipe.slug}` }}
+    >
+      {recipe.name}
+    </Link>
+  );
+};
+
+export const RecipeLink = ({ recipe }: RecipeProps) => {
   if (recipe.url != null) {
     return (
       <a className="link-primary" href={recipe.url}>
-        {recipe.name}
+        link
       </a>
     );
   } else {
-    return <>{recipe.name}</>;
+    return <></>;
   }
 };
 

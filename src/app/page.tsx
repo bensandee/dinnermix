@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Link from "next/link";
 
 export default function Home() {
   const { user, isLoading } = useUser();
@@ -36,15 +37,15 @@ const Body = () => {
   return (
     <>
       <div className="navbar bg-base-100">
-        <a className="btn btn-ghost text-xl" href="/profile">
+        <Link className="btn btn-ghost text-xl" href="/profile">
           Profile
-        </a>
-        <a className="btn btn-ghost text-xl" href="/api/auth/logout">
+        </Link>
+        <Link className="btn btn-ghost text-xl" href="/api/auth/logout">
           Logout
-        </a>
-        <a className="btn btn-ghost text-xl" href="/recipes">
+        </Link>
+        <Link className="btn btn-ghost text-xl" href="/recipes">
           Recipes
-        </a>
+        </Link>
       </div>
       <div className="space-x-2">
         <button className="btn btn-primary" onClick={goAddRecipe}>
