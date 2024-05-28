@@ -16,7 +16,7 @@ export default function Home() {
     body = <UnauthenticatedBody />;
   }
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
+    <main className="flex min-h-screen flex-col items-center p-24 bg-base-100">
       <h1 className="text-3xl text-green-800">DinnerMix</h1>
       {body}
     </main>
@@ -26,33 +26,24 @@ export default function Home() {
 const Body = () => {
   const router = useRouter();
 
-  const goAddRecipe = () => {
+  const goAddRecipe = (e: React.MouseEvent) => {
+    e.preventDefault();
     router.push("/recipes/add");
-  };
-
-  const goImportRecipe = () => {
-    router.push("/recipes/import");
   };
 
   return (
     <>
-      <div className="navbar bg-base-100">
-        <Link className="btn btn-ghost text-xl" href="/profile">
-          Profile
-        </Link>
-        <Link className="btn btn-ghost text-xl" href="/api/auth/logout">
-          Logout
-        </Link>
+      <div className="navbar">
         <Link className="btn btn-ghost text-xl" href="/recipes">
           Recipes
+        </Link>
+        <Link className="btn btn-ghost text-xl" href="/profile">
+          Profile
         </Link>
       </div>
       <div className="space-x-2">
         <button className="btn btn-primary" onClick={goAddRecipe}>
           Add Recipe
-        </button>
-        <button className="btn btn-secondary" onClick={goImportRecipe}>
-          Import Recipes
         </button>
       </div>
     </>

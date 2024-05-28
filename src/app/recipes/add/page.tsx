@@ -103,6 +103,7 @@ export default function AddRecipe() {
           <FieldErrorMessage error={errors.url} />
         </div>
         <div className="space-x-4 text-end">
+          <ImportButton />
           <CancelButton />
           <SubmitButton />
         </div>
@@ -114,6 +115,24 @@ export default function AddRecipe() {
 const FieldErrorMessage = ({ error }: { error?: FieldError }) => {
   return (
     <span className="text-red-700">{error && <p>{error.message}</p>}</span>
+  );
+};
+
+const ImportButton = () => {
+  const router = useRouter();
+
+  const goImportRecipe = () => {
+    router.replace("/recipes/import");
+  };
+
+  return (
+    <button
+      className="btn btn-secondary"
+      type="button"
+      onClick={goImportRecipe}
+    >
+      Import Recipes
+    </button>
   );
 };
 

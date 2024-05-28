@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" data-theme="dark">
       <UserProvider>
-        <body>{children}</body>
+        <body className="flex justify-center w-full">{children}</body>
       </UserProvider>
     </html>
   );
