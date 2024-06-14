@@ -1,7 +1,5 @@
 {
-  "id": "9e882f97-13e1-40bf-a3e6-444d6466fe1a",
-  "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "public.dm_recipe_attachment": {
@@ -44,15 +42,15 @@
         "dm_recipe_attachment_recipeId_dm_recipe_id_fk": {
           "name": "dm_recipe_attachment_recipeId_dm_recipe_id_fk",
           "tableFrom": "dm_recipe_attachment",
-          "tableTo": "dm_recipe",
           "columnsFrom": [
             "recipeId"
           ],
+          "tableTo": "dm_recipe",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -86,28 +84,28 @@
         "dm_recipe_history_recipeId_dm_recipe_id_fk": {
           "name": "dm_recipe_history_recipeId_dm_recipe_id_fk",
           "tableFrom": "dm_recipe_history",
-          "tableTo": "dm_recipe",
           "columnsFrom": [
             "recipeId"
           ],
+          "tableTo": "dm_recipe",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "dm_recipe_history_userId_dm_user_id_fk": {
           "name": "dm_recipe_history_userId_dm_user_id_fk",
           "tableFrom": "dm_recipe_history",
-          "tableTo": "dm_user",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "dm_user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -167,25 +165,25 @@
         "dm_recipe_ownerId_dm_user_id_fk": {
           "name": "dm_recipe_ownerId_dm_user_id_fk",
           "tableFrom": "dm_recipe",
-          "tableTo": "dm_user",
           "columnsFrom": [
             "ownerId"
           ],
+          "tableTo": "dm_user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "dm_recipe_slug_unique": {
           "name": "dm_recipe_slug_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "slug"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
@@ -227,8 +225,10 @@
   "enums": {},
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "9e882f97-13e1-40bf-a3e6-444d6466fe1a",
+  "prevId": "00000000-0000-0000-0000-000000000000"
 }
