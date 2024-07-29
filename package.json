@@ -20,7 +20,7 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
     "@hookform/resolvers": "^3.9.0",
-    "csv": "^6.3.9",
+    "csv": "^6.3.10",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.32.0",
     "drizzle-zod": "^0.5.1",
