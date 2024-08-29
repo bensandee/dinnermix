@@ -17,3 +17,11 @@ updates:
     target-branch: "main"
     commit-message:
       prefix: "ci"
+      
+  - package-ecosystem: "devcontainer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "main"
+    commit-message:
+      prefix: "ci"
