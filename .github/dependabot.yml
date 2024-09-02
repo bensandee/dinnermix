@@ -17,8 +17,8 @@ updates:
     target-branch: "main"
     commit-message:
       prefix: "ci"
-      
-  - package-ecosystem: "devcontainer"
+
+  - package-ecosystem: "devcontainers"
     directory: "/"
     schedule:
       interval: "weekly"
