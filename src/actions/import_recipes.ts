@@ -20,7 +20,7 @@ export const importRecipesAction = async (formData: FormData) => {
     ownerId: user.id,
   }));
 
-  for await (const r of adaptedRecipes) {
+  for (const r of adaptedRecipes) {
     const newSlug = await getRecipeSlug({ recipeName: r.name });
     await insertNewRecipe({ ...r, slug: newSlug });
   }
