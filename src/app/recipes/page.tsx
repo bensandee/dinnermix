@@ -11,9 +11,9 @@ async function Page() {
   const user = await requireSessionUser();
   const recipes = await getRecipeList({ userId: user.id });
   return (
-    <table className="table-auto">
+    <table className="table table-pin-rows table-md">
       <thead>
-        <tr className="text-2xl">
+        <tr className="text-xl">
           <th>Name</th>
           <th>Link</th>
           <th>Ops</th>
@@ -21,7 +21,7 @@ async function Page() {
       </thead>
       <tbody>
         {recipes.map((recipe) => (
-          <tr key={recipe.id} className="text-xl">
+          <tr key={recipe.id}>
             <td>
               <RecipeName recipe={recipe} />
             </td>

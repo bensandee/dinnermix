@@ -22,7 +22,7 @@ export const RecipeName = ({ recipe }: RecipeProps) => {
 export const RecipeLink = ({ recipe }: RecipeProps) => {
   if (recipe.url != null) {
     return (
-      <a className="link-primary" href={recipe.url}>
+      <a className="link-secondary" href={recipe.url}>
         link
       </a>
     );

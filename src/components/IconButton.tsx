@@ -10,7 +10,7 @@ export const IconButton = ({
   onClick: MouseEventHandler | undefined;
 }) => {
   return (
-    <button className="btn btn-ghost" onClick={onClick}>
+    <button className="btn btn-ghost btn-sm" onClick={onClick}>
       <Icon name={icon} />
     </button>
   );

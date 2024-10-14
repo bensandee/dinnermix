@@ -14,13 +14,17 @@ async function Page() {
   const { name, ...rest } = adaptedUser.parse(sessionUser);
   return (
     <>
-      <div>
-        Hello {name}. <br />
-        Your profile data is: {JSON.stringify(rest)}
+      <div className="flex-col">
+        <div>
+          Hello {name}. <br />
+          Your profile data is: <pre>{JSON.stringify(rest, null, 2)}</pre>
+        </div>
+        <div>
+          <Link className="btn btn-secondary text-xl" href="/api/auth/logout">
+            Logout
+          </Link>
+        </div>
       </div>
-      <Link className="btn btn-secondary text-xl" href="/api/auth/logout">
-        Logout
-      </Link>
     </>
   );
 }
