@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.2.1](https://github.com/bensandee/dinnermix/compare/dinnermix-v0.2.0-alpha.3...dinnermix-v0.2.1) (2024-10-22)
+
+
+### Features
+
+* add ability to delete recipe ([f083265](https://github.com/bensandee/dinnermix/commit/f083265d7331af897acc445b04077759ce0128fc))
+* finish recipe import ([2c0b27f](https://github.com/bensandee/dinnermix/commit/2c0b27fb0a3d4300c1eb0c53746e6198b7964e11))
+
+
+### Bug Fixes
+
+* lint warning ([669afe2](https://github.com/bensandee/dinnermix/commit/669afe2618f97c9ff1928c40e8c1df2d126c562c))
+* remove pm2 dependency ([95bff68](https://github.com/bensandee/dinnermix/commit/95bff68ebbcfa93db9b302c56a92e153e8dae59b))
+* update release-please config ([13accd6](https://github.com/bensandee/dinnermix/commit/13accd6c16467efab91f1605bd2eab5cfd8e3438))
+* use Link instead of anchor tag ([adf1438](https://github.com/bensandee/dinnermix/commit/adf1438348c84c502f6b6c85d1782db392a58938))
+
+
+### Miscellaneous Chores
+
+* release 0.2.1 ([f22ccdb](https://github.com/bensandee/dinnermix/commit/f22ccdb5de6fb5c7a528e8d64258d3665cca799b))
+
 ## [0.2.0-alpha.3](https://github.com/bensandee/dinnermix/compare/dinnermix-v0.2.0-alpha.2...dinnermix-v0.2.0-alpha.3) (2024-05-21)
 
 
