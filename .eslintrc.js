@@ -21,7 +21,7 @@ module.exports = {
     project: "./tsconfig.json",
     sourceType: "module",
   },
-  plugins: ["@typescript-eslint", "promise"],
+  plugins: ["@typescript-eslint", "promise", "import"],
   reportUnusedDisableDirectives: true,
   rules: {
     eqeqeq: ["warn", "smart"],
@@ -45,6 +45,7 @@ module.exports = {
         },
       },
     ],
+    "import/no-cycle": "error",
   },
   settings: {
     react: {
