@@ -1,9 +1,9 @@
-import { getSession } from "@auth0/nextjs-auth0";
+import { auth0 } from "./auth0";
 import { createUser, getUser, updateUserLastLogin } from "./db/users";
 
 /** return the email address of the session */
 export const getSessionEmail = async () => {
-  const session = await getSession();
+  const session = await auth0.getSession();
   if (session == null) {
     return undefined;
   }
@@ -12,7 +12,7 @@ export const getSessionEmail = async () => {
 };
 
 export const getSessionName = async () => {
-  const session = await getSession();
+  const session = await auth0.getSession();
   if (session == null) {
     return undefined;
   }

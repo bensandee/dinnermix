@@ -1,4 +1,3 @@
-import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { requireSessionUser } from "@/lib/auth";
 import { getRecipeList } from "@/lib/db/recipes";
 import {
@@ -7,7 +6,7 @@ import {
   RecipeName,
 } from "@/components/recipes";
 
-async function Page() {
+export default async function Page() {
   const user = await requireSessionUser();
   const recipes = await getRecipeList({ userId: user.id });
   return (
@@ -37,5 +36,3 @@ async function Page() {
     </table>
   );
 }
-
-export default withPageAuthRequired(Page, { returnTo: "/" });

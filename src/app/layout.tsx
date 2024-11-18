@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
 import "./globals.css";
 import type { Metadata } from "next";
 
@@ -11,9 +10,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" data-theme="dark">
-      <UserProvider>
-        <body className="flex justify-center w-full">{children}</body>
-      </UserProvider>
+      <body className="flex justify-center w-full">{children}</body>
     </html>
   );
 }
