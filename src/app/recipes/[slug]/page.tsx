@@ -1,7 +1,6 @@
 import { requireSessionUser } from "@/lib/auth";
 import { getRecipe } from "@/lib/db/recipes";
 import { Recipe } from "@/lib/db/schema";
-import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { notFound } from "next/navigation";
 
 const RecipeInfo = ({ recipe }: { recipe: Recipe }) => {
@@ -18,7 +17,7 @@ const RecipeInfo = ({ recipe }: { recipe: Recipe }) => {
   );
 };
 
-async function Page({
+export default async function Page({
   params,
 }: {
   params?: Record<string, string | string[]>;
@@ -37,5 +36,3 @@ async function Page({
   }
   return <RecipeInfo recipe={recipe[0]} />;
 }
-
-export default withPageAuthRequired(Page, { returnTo: "/" });
